@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { calculatePrayerTimes, type PrayerTimes } from "@/lib/solar-calc"
+import { calculatePrayerTimes, type PrayerTimes, CalcMethod } from "@/lib/solar-calc"
 import { Languages } from "lucide-react"
 
 const translations = {
@@ -16,8 +16,8 @@ const translations = {
     prayer: "Prayer",
     time: "Time (Local)",
     refresh: "Refresh Location",
-    method: "MWL Calculation Method",
-    rule: "Shafi Shadow Rule",
+    method: "Karachi Calculation Method",
+    rule: "Asr Shadow Rule",
     requesting: "Requesting Location...",
   },
   my: {
@@ -31,8 +31,8 @@ const translations = {
     prayer: "ဝတ်ပြုချိန်",
     time: "အချိန်",
     refresh: "တည်နေရာအသစ်ရယူရန်",
-    method: "MWL တွက်ချက်မှုစနစ်",
-    rule: "Shafi Shadow Rule",
+    method: "Karachi တွက်ချက်မှုစနစ်",
+    rule: "Asr Shadow Rule",
     requesting: "တည်နေရာရှာဖွေနေသည်...",
   },
 }
@@ -43,6 +43,7 @@ export default function PrayerTimesPage() {
   const [times, setTimes] = useState<PrayerTimes | null>(null)
   const [loading, setLoading] = useState(true)
   const [currentTime, setCurrentTime] = useState(new Date())
+  const [asrShadow, setAsrShadow] = useState<1 | 2>(2)
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000)
@@ -58,7 +59,7 @@ export default function PrayerTimesPage() {
           setLocation({ lat, lng })
 
           const timezone = -new Date().getTimezoneOffset() / 60
-          const calculated = calculatePrayerTimes(lat, lng, timezone)
+          const calculated = calculatePrayerTimes(lat, lng, timezone, new Date(), CalcMethod.Karachi, asrShadow)
           setTimes(calculated)
           setLoading(false)
         },
@@ -67,7 +68,7 @@ export default function PrayerTimesPage() {
         },
       )
     }
-  }, [])
+  }, [asrShadow])
 
   const refreshLocation = () => {
     setLoading(true)
@@ -77,7 +78,7 @@ export default function PrayerTimesPage() {
         const lng = position.coords.longitude
         setLocation({ lat, lng })
         const timezone = -new Date().getTimezoneOffset() / 60
-        setTimes(calculatePrayerTimes(lat, lng, timezone))
+        setTimes(calculatePrayerTimes(lat, lng, timezone, new Date(), CalcMethod.Karachi, asrShadow))
         setLoading(false)
       },
       (error) => {
@@ -93,7 +94,7 @@ export default function PrayerTimesPage() {
     { name: t.fajr, time: times?.fajr },
     { name: t.sunrise, time: times?.sunrise, secondary: true },
     { name: t.zawal, time: times?.zawal },
-    { name: t.asr, time: times?.asr },
+    { name: t.asr, time: times?.asr, isAsr: true },
     { name: t.maghrib, time: times?.maghrib },
     { name: t.isha, time: times?.isha },
   ]
@@ -176,6 +177,14 @@ export default function PrayerTimesPage() {
                 <span className="text-3xl md:text-5xl font-serif tracking-tight text-foreground transition-transform duration-500 group-hover:translate-x-2">
                   {prayer.name}
                 </span>
+                {prayer.isAsr && (
+                  <button 
+                    onClick={() => setAsrShadow(asrShadow === 2 ? 1 : 2)}
+                    className="ml-4 px-3 py-1 border border-primary/30 text-[9px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-colors"
+                  >
+                    {asrShadow === 2 ? "Hanafi" : "Shafi"}
+                  </button>
+                )}
               </div>
               <span className="text-right text-3xl md:text-5xl font-light tabular-nums text-primary/80 group-hover:text-primary transition-colors duration-500">
                 {prayer.time || "--:--"}
@@ -196,7 +205,7 @@ export default function PrayerTimesPage() {
 
       <footer className="mt-auto pt-12 text-[10px] text-muted-foreground uppercase tracking-widest flex justify-between font-bold">
         <span>{t.method}</span>
-        <span>{t.rule}</span>
+        <span>{asrShadow === 2 ? "Hanafi Rule" : "Shafi Rule"}</span>
       </footer>
     </main>
   )

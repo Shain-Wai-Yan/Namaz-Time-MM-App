@@ -25,21 +25,15 @@ export enum CalcMethod {
   Custom = "Custom",
 }
 
-// Added for clarity in your UI logic
-export enum AsrMethod {
-  Shafi = 1,
-  Hanafi = 2
-}
-
 const d2r = (d: number) => (d * Math.PI) / 180
 const r2d = (r: number) => (r * 180) / Math.PI
-const clamp = (v: number, a = -1, b = 1) => Math.max(a, Math.min(b, v))
+const clamp = (v:number, a=-1, b=1) => Math.max(a, Math.min(b, v))
 
 const METHOD_ANGLES: Record<CalcMethod, { fajr: number; isha: number }> = {
   [CalcMethod.MWL]: { fajr: -18, isha: -17 },
   [CalcMethod.Karachi]: { fajr: -18, isha: -18 },
   [CalcMethod.Egypt]: { fajr: -19.5, isha: -17.5 },
-  [CalcMethod.UmmAlQura]: { fajr: -18.5, isha: -90 }, 
+  [CalcMethod.UmmAlQura]: { fajr: -18.5, isha: -90 }, // Isha handled separately
   [CalcMethod.Custom]: { fajr: -18, isha: -18 },
 }
 
@@ -56,7 +50,7 @@ function declinationAndEoT(Nf: number) {
   return { delta, EoT }
 }
 
-function hourAngleDeg(latDeg: number, declDeg: number, alphaDeg: number) {
+function hourAngleDeg(latDeg:number, declDeg:number, alphaDeg:number) {
   const phi = d2r(latDeg)
   const d = d2r(declDeg)
   const cosH = clamp(
@@ -66,7 +60,7 @@ function hourAngleDeg(latDeg: number, declDeg: number, alphaDeg: number) {
   return r2d(Math.acos(cosH))
 }
 
-function asrAltitudeDeg(latDeg: number, declDeg: number, shadowFactor: number) {
+function asrAltitudeDeg(latDeg:number, declDeg:number, shadowFactor:number) {
   const phi = d2r(latDeg)
   const d = d2r(declDeg)
   return r2d(Math.atan(1 / (shadowFactor + Math.tan(Math.abs(phi - d)))))
@@ -79,18 +73,19 @@ function formatHM(hoursFloat: number) {
   if (m === 60) { m = 0; h = (h + 1) % 24 }
   const period = h >= 12 ? "PM" : "AM"
   const displayH = h % 12 || 12
-  return `${displayH}:${m.toString().padStart(2, "0")} ${period}`
+  return `${displayH}:${m.toString().padStart(2,"0")} ${period}`
 }
 
-function hoursToMins(hours: number) { return Math.round(hours * 60) }
-function minsToHours(mins: number) { return mins / 60 }
+function hoursToMins(hours:number){ return Math.round(hours * 60) }
+function minsToHours(mins:number){ return mins / 60 }
 
+// --- Ramadan Check ---
 function isRamadan(date: Date) {
-  // 2025 Ramadan is roughly March. Adjusted placeholder to reflect real calendar.
-  const month = date.getUTCMonth() + 1
-  return month === 3 
+  // Placeholder — replace with Hijri calendar for production
+  return date.getUTCMonth() + 1 === 4
 }
 
+// --- High Latitude Adjustments ---
 function highLatitudeAdjustment(hours: number | null, fallback: number) {
   return hours !== null && !isNaN(hours) ? hours : fallback
 }
@@ -102,23 +97,22 @@ export function calculatePrayerTimesAdvanced(
   lng: number,
   timezone: number,
   date: Date = new Date(),
-  method: CalcMethod = CalcMethod.Karachi, // Setting Karachi as default for Myanmar
-  asrShadow: 1 | 2 = 2, // Setting Hanafi as default to match your local tables
+  method: CalcMethod = CalcMethod.Karachi,
+  asrShadow: 1 | 2 = 2,
   customFajrAngle?: number,
   customIshaAngle?: number,
 ): PrayerTimes {
 
   const methodAngles = METHOD_ANGLES[method]
-  const fajrAngle = customFajrAngle ?? methodAngles.fajr
-  const ishaAngle = customIshaAngle ?? methodAngles.isha
+  const fajrAngle =
+    method === CalcMethod.Custom && customFajrAngle !== undefined
+      ? customFajrAngle
+      : methodAngles.fajr
 
-  /**
-   * BURMA GEOGRAPHY ADJUSTMENT:
-   * Standard astronomical sunrise is -0.833°. 
-   * Local tables in Myanmar reflect elevation (Shan Hills/Central Plains).
-   * Using -1.1° provides a much better match for Myanmar's visual sunrise.
-   */
-  const sunriseAngle = -1.1; 
+  const ishaAngle =
+    method === CalcMethod.Custom && customIshaAngle !== undefined
+      ? customIshaAngle
+      : methodAngles.isha
 
   const dayStart = Date.UTC(date.getUTCFullYear(), 0, 1)
   const dayIndex =
@@ -127,51 +121,62 @@ export function calculatePrayerTimesAdvanced(
         dayStart) / 86400000
     ) + 1
 
-  const getSolar = (localHour: number) => {
+  const getSolar = (localHour:number) => {
     let utcHour = localHour - timezone
     let Nf = dayIndex + utcHour / 24
+    if (utcHour < 0) Nf = dayIndex - 1 + (utcHour + 24) / 24
+    else if (utcHour >= 24) Nf = dayIndex + 1 + (utcHour - 24) / 24
     return declinationAndEoT(Nf)
   }
 
-  // Pre-calculate Noon values
-  const { delta: dNoon, EoT: eNoon } = getSolar(12)
-  let solarNoon = 12 + timezone - lng / 15 - eNoon / 60
+  let { delta, EoT } = getSolar(12)
+  let solarNoon = 12 + timezone - lng / 15 - EoT / 60
 
-  const solvePrayer = (alphaDeg: number, beforeNoon: boolean) => {
-    let t = beforeNoon ? solarNoon - 5 : solarNoon + 5
+  const solvePrayer = (alphaDeg:number, beforeNoon:boolean) => {
+    let H = hourAngleDeg(lat, delta, alphaDeg)
+    let t = beforeNoon ? solarNoon - H / 15 : solarNoon + H / 15
     for (let i = 0; i < 3; i++) {
-      const { delta, EoT } = getSolar(t)
-      const currentNoon = 12 + timezone - lng / 15 - EoT / 60
-      const H = hourAngleDeg(lat, delta, alphaDeg)
-      t = beforeNoon ? currentNoon - H / 15 : currentNoon + H / 15
+      ({ delta, EoT } = getSolar(t))
+      solarNoon = 12 + timezone - lng / 15 - EoT / 60
+      H = hourAngleDeg(lat, delta, alphaDeg)
+      t = beforeNoon ? solarNoon - H / 15 : solarNoon + H / 15
     }
     return t
   }
 
-  // --- Prayer Calculations with Myanmar Ihtiyat (Safety Buffers) ---
+  // --- Prayer Calculations ---
 
-  // FAJR: Added 1-minute buffer to match local "Subh" start
-  const fajrLocal = solvePrayer(fajrAngle, true) + (1 / 60);
+  const fajrLocal = highLatitudeAdjustment(
+    solvePrayer(fajrAngle, true),
+    5
+  ) + (1/60)
 
-  // SUNRISE: Uses elevation-adjusted angle
-  const sunriseLocal = solvePrayer(sunriseAngle, true);
+  const sunriseLocal = highLatitudeAdjustment(
+    solvePrayer(-1.1, true),
+    6
+  )
 
-  const zawalLocal = solarNoon;
+  const zawalLocal = solarNoon
 
-  // ASR: Based on the chosen shadow factor (Hanafi by default for Myanmar)
-  const asrLocal = solvePrayer(asrAltitudeDeg(lat, dNoon, asrShadow), false);
+  const asrLocal = highLatitudeAdjustment(
+    solvePrayer(asrAltitudeDeg(lat, delta, asrShadow), false),
+    zawalLocal + 1
+  )
 
-  // MAGHRIB: Sunset angle + 3-minute Myanmar Safety Buffer
-  // This ensures the sun is completely hidden behind terrain.
-  let maghribLocal = solvePrayer(sunriseAngle, false) + (3 / 60);
+  let maghribLocal = highLatitudeAdjustment(
+    solvePrayer(-1.1, false),
+    zawalLocal + 0.1
+  ) + (2.5/60)
 
-  // ISHA: Isha angle + 2-minute Myanmar Safety Buffer
   let ishaLocal: number
   if (method === CalcMethod.UmmAlQura) {
     let offset = isRamadan(date) ? 120 : 90
     ishaLocal = maghribLocal + minsToHours(offset)
   } else {
-    ishaLocal = solvePrayer(ishaAngle, false) + (2 / 60);
+    ishaLocal = highLatitudeAdjustment(
+      solvePrayer(ishaAngle, false),
+      maghribLocal + 1.5
+    ) + (1.5/60)
   }
 
   const resultMins = {
@@ -194,4 +199,5 @@ export function calculatePrayerTimesAdvanced(
   }
 }
 
+// 🔹 Backward compatibility alias
 export const calculatePrayerTimes = calculatePrayerTimesAdvanced

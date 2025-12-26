@@ -105,7 +105,7 @@ export function calculatePrayerTimesAdvanced(
 
   const fajrLocal = solvePrayer(fajrAngle,true)
   const sunriseLocal = solvePrayer(-0.833,true)
-  let dhuhrLocal = solarNoon + 0.03 // 2 min buffer after solar noon
+  let dhuhrLocal = solarNoon + 0.03
   const asrLocal = solvePrayer(asrAltitudeDeg(lat, delta, asrShadow),false)
   const maghribLocal = solvePrayer(-0.833,false)
   const ishaLocal = (method===CalcMethod.UmmAlQura && ishaAngle<=-90)? maghribLocal + minsToHours(90) : solvePrayer(ishaAngle,false)
@@ -129,3 +129,6 @@ export function calculatePrayerTimesAdvanced(
     _mins: resultMins
   }
 }
+
+// 🔹 Fix for Vercel build: alias export for backward compatibility
+export const calculatePrayerTimes = calculatePrayerTimesAdvanced

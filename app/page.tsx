@@ -9,7 +9,7 @@ const translations = {
     schedule: "Schedule",
     fajr: "Fajr",
     sunrise: "Sunrise",
-    dhuhr: "Dhuhr",
+    zawal: "Zawal",
     asr: "Asr",
     maghrib: "Maghrib",
     isha: "Isha",
@@ -24,7 +24,7 @@ const translations = {
     schedule: "နမာဇ်အချိန်ဇယား",
     fajr: "ဖဂျရ်",
     sunrise: "နေထွက်ချိန်",
-    dhuhr: "ဇိုဟိုရ်",
+    zawal: "ဇဝါလ်",
     asr: "အဆွရ်",
     maghrib: "မဂ်ရိဗ်",
     isha: "အေရှာ",
@@ -92,7 +92,7 @@ export default function PrayerTimesPage() {
   const prayers = [
     { name: t.fajr, time: times?.fajr },
     { name: t.sunrise, time: times?.sunrise, secondary: true },
-    { name: t.dhuhr, time: times?.dhuhr },
+    { name: t.zawal, time: times?.zawal },
     { name: t.asr, time: times?.asr },
     { name: t.maghrib, time: times?.maghrib },
     { name: t.isha, time: times?.isha },
@@ -104,14 +104,18 @@ export default function PrayerTimesPage() {
         <div className="flex justify-between items-start w-full">
           <div className="space-y-4">
             <h1
-              className={`font-serif italic leading-[1.1] tracking-tighter text-foreground ${lang === "my" ? "text-3xl md:text-6xl" : "text-5xl md:text-8xl"}`}
+              className={`font-serif italic leading-[1.1] tracking-tighter text-foreground ${
+                lang === "my" ? "text-3xl md:text-6xl" : "text-5xl md:text-8xl"
+              }`}
             >
               {t.schedule}
             </h1>
             <div className="flex items-center gap-3 text-muted-foreground">
               <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               <span className="text-[10px] uppercase tracking-[0.3em] font-medium break-all md:break-normal">
-                {location ? `${location.lat.toFixed(4)}° N, ${location.lng.toFixed(4)}° E` : t.requesting}
+                {location
+                  ? `${location.lat.toFixed(4)}° N, ${location.lng.toFixed(4)}° E`
+                  : t.requesting}
               </span>
             </div>
           </div>
@@ -120,8 +124,12 @@ export default function PrayerTimesPage() {
             className="group flex items-center gap-2 md:gap-3 px-3 md:px-6 py-2 border border-foreground/10 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-foreground hover:text-background transition-all duration-500 bg-background"
           >
             <Languages size={12} className="group-hover:rotate-180 transition-transform duration-700" />
-            <span className="hidden xs:inline">{lang === "en" ? "Burmese" : "English"}</span>
-            <span className="xs:hidden">{lang === "en" ? "MY" : "EN"}</span>
+            <span className="hidden xs:inline">
+              {lang === "en" ? "Burmese" : "English"}
+            </span>
+            <span className="xs:hidden">
+              {lang === "en" ? "MY" : "EN"}
+            </span>
           </button>
         </div>
 
@@ -160,7 +168,9 @@ export default function PrayerTimesPage() {
           {prayers.map((prayer) => (
             <div
               key={prayer.name}
-              className={`grid grid-cols-2 py-10 items-baseline border-b border-foreground/5 group hover:bg-primary/[0.02] transition-all duration-700 relative overflow-hidden ${prayer.secondary ? "opacity-30 grayscale" : ""}`}
+              className={`grid grid-cols-2 py-10 items-baseline border-b border-foreground/5 group hover:bg-primary/[0.02] transition-all duration-700 relative overflow-hidden ${
+                prayer.secondary ? "opacity-30 grayscale" : ""
+              }`}
             >
               <div className="flex items-baseline gap-4">
                 <span className="text-3xl md:text-5xl font-serif tracking-tight text-foreground transition-transform duration-500 group-hover:translate-x-2">

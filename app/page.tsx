@@ -1,0 +1,193 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { calculatePrayerTimes, type PrayerTimes } from "@/lib/solar-calc"
+import { Languages } from "lucide-react"
+
+const translations = {
+  en: {
+    schedule: "Schedule",
+    fajr: "Fajr",
+    sunrise: "Sunrise",
+    dhuhr: "Dhuhr",
+    asr: "Asr",
+    maghrib: "Maghrib",
+    isha: "Isha",
+    prayer: "Prayer",
+    time: "Time (Local)",
+    refresh: "Refresh Location",
+    method: "MWL Calculation Method",
+    rule: "Shafi Shadow Rule",
+    requesting: "Requesting Location...",
+  },
+  my: {
+    schedule: "နမာဇ်အချိန်ဇယား",
+    fajr: "ဖဂျရ်",
+    sunrise: "နေထွက်ချိန်",
+    dhuhr: "ဇိုဟိုရ်",
+    asr: "အဆွရ်",
+    maghrib: "မဂ်ရိဗ်",
+    isha: "အေရှာ",
+    prayer: "ဝတ်ပြုချိန်",
+    time: "အချိန်",
+    refresh: "တည်နေရာအသစ်ရယူရန်",
+    method: "MWL တွက်ချက်မှုစနစ်",
+    rule: "Shafi Shadow Rule",
+    requesting: "တည်နေရာရှာဖွေနေသည်...",
+  },
+}
+
+export default function PrayerTimesPage() {
+  const [lang, setLang] = useState<"en" | "my">("en")
+  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null)
+  const [times, setTimes] = useState<PrayerTimes | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [currentTime, setCurrentTime] = useState(new Date())
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000)
+    return () => clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude
+          const lng = position.coords.longitude
+          setLocation({ lat, lng })
+
+          const timezone = -new Date().getTimezoneOffset() / 60
+          const calculated = calculatePrayerTimes(lat, lng, timezone)
+          setTimes(calculated)
+          setLoading(false)
+        },
+        () => {
+          setLoading(false)
+        },
+      )
+    }
+  }, [])
+
+  const refreshLocation = () => {
+    setLoading(true)
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude
+        const lng = position.coords.longitude
+        setLocation({ lat, lng })
+        const timezone = -new Date().getTimezoneOffset() / 60
+        setTimes(calculatePrayerTimes(lat, lng, timezone))
+        setLoading(false)
+      },
+      (error) => {
+        console.error("[v0] Location error:", error)
+        setLoading(false)
+      },
+    )
+  }
+
+  const t = translations[lang]
+
+  const prayers = [
+    { name: t.fajr, time: times?.fajr },
+    { name: t.sunrise, time: times?.sunrise, secondary: true },
+    { name: t.dhuhr, time: times?.dhuhr },
+    { name: t.asr, time: times?.asr },
+    { name: t.maghrib, time: times?.maghrib },
+    { name: t.isha, time: times?.isha },
+  ]
+
+  return (
+    <main className="min-h-screen bg-background text-foreground flex flex-col p-6 md:p-20 max-w-5xl mx-auto font-sans selection:bg-primary selection:text-white">
+      <header className="mb-12 md:mb-24 flex flex-col gap-6 md:gap-12 border-b border-foreground/5 pb-12">
+        <div className="flex justify-between items-start w-full">
+          <div className="space-y-4">
+            <h1
+              className={`font-serif italic leading-[1.1] tracking-tighter text-foreground ${lang === "my" ? "text-3xl md:text-6xl" : "text-5xl md:text-8xl"}`}
+            >
+              {t.schedule}
+            </h1>
+            <div className="flex items-center gap-3 text-muted-foreground">
+              <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <span className="text-[10px] uppercase tracking-[0.3em] font-medium break-all md:break-normal">
+                {location ? `${location.lat.toFixed(4)}° N, ${location.lng.toFixed(4)}° E` : t.requesting}
+              </span>
+            </div>
+          </div>
+          <button
+            onClick={() => setLang(lang === "en" ? "my" : "en")}
+            className="group flex items-center gap-2 md:gap-3 px-3 md:px-6 py-2 border border-foreground/10 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-foreground hover:text-background transition-all duration-500 bg-background"
+          >
+            <Languages size={12} className="group-hover:rotate-180 transition-transform duration-700" />
+            <span className="hidden xs:inline">{lang === "en" ? "Burmese" : "English"}</span>
+            <span className="xs:hidden">{lang === "en" ? "MY" : "EN"}</span>
+          </button>
+        </div>
+
+        <div className="flex flex-col md:flex-row md:items-end justify-between w-full gap-4">
+          <div className="space-y-1 md:text-left">
+            <div className="text-4xl md:text-6xl font-serif tracking-tight tabular-nums">
+              {currentTime.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false,
+              })}
+            </div>
+            <div className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-primary font-bold">
+              {currentTime.toLocaleDateString(lang === "en" ? "en-GB" : "my-MM", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+              })}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {loading ? (
+        <div className="flex-1 flex items-center justify-center">
+          <div className="w-12 h-12 border border-primary/20 border-t-primary rounded-full animate-spin" />
+        </div>
+      ) : (
+        <div className="flex flex-col">
+          <div className="grid grid-cols-2 py-6 text-[9px] uppercase tracking-[0.4em] text-muted-foreground font-bold border-b border-foreground/5">
+            <span>{t.prayer}</span>
+            <span className="text-right">{t.time}</span>
+          </div>
+
+          {prayers.map((prayer) => (
+            <div
+              key={prayer.name}
+              className={`grid grid-cols-2 py-10 items-baseline border-b border-foreground/5 group hover:bg-primary/[0.02] transition-all duration-700 relative overflow-hidden ${prayer.secondary ? "opacity-30 grayscale" : ""}`}
+            >
+              <div className="flex items-baseline gap-4">
+                <span className="text-3xl md:text-5xl font-serif tracking-tight text-foreground transition-transform duration-500 group-hover:translate-x-2">
+                  {prayer.name}
+                </span>
+              </div>
+              <span className="text-right text-3xl md:text-5xl font-light tabular-nums text-primary/80 group-hover:text-primary transition-colors duration-500">
+                {prayer.time || "--:--"}
+              </span>
+            </div>
+          ))}
+
+          <div className="mt-16 flex justify-center">
+            <button
+              onClick={refreshLocation}
+              className="px-10 py-4 border border-foreground/10 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-primary hover:text-white hover:border-primary transition-all duration-500 bg-transparent"
+            >
+              {t.refresh}
+            </button>
+          </div>
+        </div>
+      )}
+
+      <footer className="mt-auto pt-12 text-[10px] text-muted-foreground uppercase tracking-widest flex justify-between font-bold">
+        <span>{t.method}</span>
+        <span>{t.rule}</span>
+      </footer>
+    </main>
+  )
+}

@@ -38,7 +38,8 @@ const translations = {
 }
 
 export default function PrayerTimesPage() {
-  const [lang, setLang] = useState<"en" | "my">("en")
+     //change this to switch around myanmar and eng default langauge 
+  const [lang, setLang] = useState<"my" | "en">("my")
   const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null)
   const [times, setTimes] = useState<PrayerTimes | null>(null)
   const [loading, setLoading] = useState(true)

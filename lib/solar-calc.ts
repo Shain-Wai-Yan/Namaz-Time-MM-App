@@ -1,4 +1,5 @@
 // lib/solar-calc.ts
+
 export type PrayerTimes = {
   fajr: string
   sunrise: string
@@ -25,9 +26,11 @@ const METHOD_ANGLES: Record<CalcMethod, { fajr: number; isha: number }> = {
   [CalcMethod.MWL]: { fajr: -18, isha: -17 },
   [CalcMethod.Karachi]: { fajr: -18, isha: -18 },
   [CalcMethod.Egypt]: { fajr: -19.5, isha: -17.5 },
-  [CalcMethod.UmmAlQura]: { fajr: -18.5, isha: -90 },
+  [CalcMethod.UmmAlQura]: { fajr: -18.5, isha: -90 }, // Isha handled separately
   [CalcMethod.Custom]: { fajr: -18, isha: -18 },
 }
+
+// --- Utility Functions ---
 
 function declinationAndEoT(Nf: number) {
   const B = (360 / 365) * (Nf - 81)
@@ -62,6 +65,21 @@ function formatHM(hoursFloat: number) {
 
 function hoursToMins(hours:number){ return Math.round(hours*60) }
 function minsToHours(mins:number){ return mins/60 }
+
+// --- Ramadan Check ---
+function isRamadan(date: Date) {
+  // Placeholder: user should replace with actual Hijri conversion library for production
+  // For now we assume Ramadan is April (for example purposes)
+  const month = date.getUTCMonth() + 1
+  return month === 4
+}
+
+// --- High Latitude Adjustments ---
+function highLatitudeAdjustment(hours: number | null, fallback: number) {
+  return hours !== null && !isNaN(hours) ? hours : fallback
+}
+
+// --- Main Function ---
 
 export function calculatePrayerTimesAdvanced(
   lat: number,
@@ -103,12 +121,24 @@ export function calculatePrayerTimesAdvanced(
     return t
   }
 
-  const fajrLocal = solvePrayer(fajrAngle,true)
-  const sunriseLocal = solvePrayer(-0.833,true)
-  let dhuhrLocal = solarNoon + 0.03
-  const asrLocal = solvePrayer(asrAltitudeDeg(lat, delta, asrShadow),false)
-  const maghribLocal = solvePrayer(-0.833,false)
-  const ishaLocal = (method===CalcMethod.UmmAlQura && ishaAngle<=-90)? maghribLocal + minsToHours(90) : solvePrayer(ishaAngle,false)
+  // --- Prayer Calculations ---
+
+  const fajrLocal = highLatitudeAdjustment(solvePrayer(fajrAngle,true), 5)
+  const sunriseLocal = highLatitudeAdjustment(solvePrayer(-0.833,true), 6)
+  let dhuhrLocal = solarNoon + (4 / 60) // 4 minutes buffer
+  const asrLocal = highLatitudeAdjustment(solvePrayer(asrAltitudeDeg(lat, delta, asrShadow),false), dhuhrLocal + 60/60)
+  let maghribLocal = highLatitudeAdjustment(solvePrayer(-0.833,false), dhuhrLocal + 6/60)
+  // Maghrib safety buffer
+  maghribLocal += 2/60
+
+  let ishaLocal: number
+  if (method===CalcMethod.UmmAlQura) {
+    let ishaOffset = 90
+    if (isRamadan(date)) ishaOffset = 120
+    ishaLocal = maghribLocal + minsToHours(ishaOffset)
+  } else {
+    ishaLocal = highLatitudeAdjustment(solvePrayer(ishaAngle,false), maghribLocal + 90/60)
+  }
 
   const resultMins = {
     fajr: hoursToMins(fajrLocal),
@@ -130,5 +160,5 @@ export function calculatePrayerTimesAdvanced(
   }
 }
 
-// 🔹 Fix for Vercel build: alias export for backward compatibility
+// 🔹 Backward compatibility alias
 export const calculatePrayerTimes = calculatePrayerTimesAdvanced

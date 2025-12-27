@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { calculatePrayerTimes, type PrayerTimes, CalcMethod } from "@/lib/solar-calc"
+import { calculatePrayerTimes, getHijriDate, getIslamicEvent, type PrayerTimes, CalcMethod } from "@/lib/solar-calc"
 import { Languages } from "lucide-react"
 
 const translations = {
@@ -17,6 +17,35 @@ const translations = {
     time: "Time (Local)",
     refresh: "Refresh Location",
     method: "Karachi Calculation Method",
+    hijri_adj: "Hijri Adj",
+    events: "Notable Events",
+    months: [
+      "Muharram",
+      "Safar",
+      "Rabi' al-Awwal",
+      "Rabi' al-Thani",
+      "Jumada al-Ula",
+      "Jumada al-Akhirah",
+      "Rajab",
+      "Sha'ban",
+      "Ramadan",
+      "Shawwal",
+      "Dhu al-Qi'dah",
+      "Dhu al-Hijjah",
+    ],
+    event_names: {
+      new_year: "Islamic New Year",
+      ashura: "Day of Ashura",
+      mawlid: "Mawlid al-Nabi",
+      isra: "Isra' and Mi'raj",
+      baraat: "Laylat al-Bara'at",
+      ramadan_start: "Ramadan Start",
+      qadr: "Laylat al-Qadr (Last 10 Nights)",
+      fitr: "Eid al-Fitr",
+      hajj: "Hajj Season",
+      arafah: "Day of Arafah",
+      adha: "Eid al-Adha",
+    },
     rule: "Asr Shadow Rule",
     requesting: "Requesting Location...",
     about: "About the Creator",
@@ -40,6 +69,35 @@ const translations = {
     time: "အချိန်",
     refresh: "တည်နေရာအသစ်ရယူရန်",
     method: "Karachi တွက်ချက်မှုစနစ်",
+    hijri_adj: "ရက်စွဲညှိရန်",
+    events: "ထူးခြားသောနေ့ရက်များ",
+    months: [
+      "မူဟရ်ရမ်",
+      "ဆွဖရ်",
+      "ရဗီအွလ်အောင်ဝလ်",
+      "ရဗီအွစ်ဆာနီ",
+      "ဂျုမာဒိလ်အောင်ဝလ်",
+      "ဂျုမာဒိလ်အာခိရ်",
+      "ရဂျပ်",
+      "ရှအ်ဘာန်",
+      "ရမ်ဇာန်",
+      "ရှောင်ဝါလ်",
+      "ဇူလ်ကအ်ဒဟ်",
+      "ဇူလ်ဟဂျဟ်",
+    ],
+    event_names: {
+      new_year: "အစ္စလာမ့်နှစ်သစ်ကူး",
+      ashura: "အာရှူရာနေ့",
+      mawlid: "မောင်လစ်ဒ်နေ့",
+      isra: "အစ်ရာနှင့်မအ်ရာဂ်ျ",
+      baraat: "ရှဗေဗရာသ်ည",
+      ramadan_start: "ရမ်ဇာန်စတင်ခြင်း",
+      qadr: "လိုင်လသွလ်ကဒရ် (နောက်ဆုံး ၁၀ ည)",
+      fitr: "အီးဒွလ်ဖိသရ်",
+      hajj: "ဟဂျ်ရာသီ",
+      arafah: "အရဖဟ်နေ့",
+      adha: "အီးဒွလ်အဿွဟာ",
+    },
     rule: "Asr Shadow Rule",
     requesting: "တည်နေရာရှာဖွေနေသည်...",
     about: "ဖန်တီးသူအကြောင်း",
@@ -62,13 +120,16 @@ export default function PrayerTimesPage() {
   const [asrShadow, setAsrShadow] = useState<1 | 2>(2)
   const [showAbout, setShowAbout] = useState(false)
   const [showNoti, setShowNoti] = useState(false)
+  const [hijriOffset, setHijriOffset] = useState(0)
 
+ // 1. Clock timer (runs every second)
   useEffect(() => {
     setShowNoti(true)
     const timer = setInterval(() => setCurrentTime(new Date()), 1000)
     return () => clearInterval(timer)
   }, [])
 
+  // 2. Prayer calculation logic (runs only when location or settings change)
   useEffect(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -78,17 +139,33 @@ export default function PrayerTimesPage() {
           setLocation({ lat, lng })
 
           const timezone = -new Date().getTimezoneOffset() / 60
-          const calculated = calculatePrayerTimes(lat, lng, timezone, new Date(), CalcMethod.Karachi, asrShadow)
+          
+          // Use current date for calculation, but avoid dependency on 
+          // 'currentTime' state to prevent 60-recalculates-per-minute.
+          const calcDate = new Date() 
+
+          const calculated = calculatePrayerTimes(
+            lat,
+            lng,
+            timezone,
+            calcDate,
+            CalcMethod.Karachi,
+            asrShadow,
+            undefined,
+            undefined,
+            hijriOffset
+          )
           setTimes(calculated)
           setLoading(false)
         },
         () => {
           setLoading(false)
-        },
+        }
       )
     }
-  }, [asrShadow])
+  }, [asrShadow, hijriOffset]) // Recalculate only if these change
 
+  // 3. Refresh function
   const refreshLocation = () => {
     setLoading(true)
     navigator.geolocation.getCurrentPosition(
@@ -97,17 +174,31 @@ export default function PrayerTimesPage() {
         const lng = position.coords.longitude
         setLocation({ lat, lng })
         const timezone = -new Date().getTimezoneOffset() / 60
-        setTimes(calculatePrayerTimes(lat, lng, timezone, new Date(), CalcMethod.Karachi, asrShadow))
+        const calculated = calculatePrayerTimes(
+          lat,
+          lng,
+          timezone,
+          new Date(),
+          CalcMethod.Karachi,
+          asrShadow,
+          undefined,
+          undefined,
+          hijriOffset
+        )
+        setTimes(calculated)
         setLoading(false)
       },
       (error) => {
-        console.error("[v0] Location error:", error)
+        console.error("Location error:", error)
         setLoading(false)
-      },
+      }
     )
   }
 
   const t = translations[lang]
+
+  const hijri = getHijriDate(currentTime, hijriOffset)
+  const event = getIslamicEvent(hijri.day, hijri.month)
 
   const prayers = [
     { name: t.fajr, time: times?.fajr },
@@ -183,7 +274,7 @@ export default function PrayerTimesPage() {
           </button>
         </div>
 
-        <div className="flex flex-col md:flex-row md:items-end justify-between w-full gap-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between w-full gap-8">
           <div className="space-y-1 md:text-left">
             <div className="text-4xl md:text-6xl font-serif tracking-tight tabular-nums">
               {currentTime.toLocaleTimeString([], {
@@ -193,13 +284,44 @@ export default function PrayerTimesPage() {
                 hour12: false,
               })}
             </div>
-            <div className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-primary font-bold">
-              {currentTime.toLocaleDateString(lang === "en" ? "en-GB" : "my-MM", {
-                weekday: "long",
-                day: "numeric",
-                month: "long",
-              })}
+            <div className="flex flex-col gap-2">
+              <div className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-muted-foreground font-bold">
+                {currentTime.toLocaleDateString(lang === "en" ? "en-GB" : "my-MM", {
+                  weekday: "long",
+                  day: "numeric",
+                  month: "long",
+                })}
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-primary font-bold">
+                  {hijri.day} {t.months[hijri.month - 1]} {hijri.year} AH
+                </div>
+                {event && (
+                  <div className="text-[8px] md:text-[9px] bg-primary/10 text-primary px-3 py-1 border border-primary/20 tracking-[0.2em] font-bold animate-pulse">
+                    {t.event_names[event.key as keyof typeof t.event_names]}
+                  </div>
+                )}
+              </div>
             </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-[8px] uppercase tracking-[0.3em] text-muted-foreground font-bold mr-2">
+              {t.hijri_adj}
+            </span>
+            {[-1, 0, 1].map((offset) => (
+              <button
+                key={offset}
+                onClick={() => setHijriOffset(offset)}
+                className={`px-3 py-1 border text-[9px] font-bold transition-all ${
+                  hijriOffset === offset
+                    ? "bg-primary text-white border-primary"
+                    : "border-foreground/10 text-muted-foreground hover:border-primary/50"
+                }`}
+              >
+                {offset > 0 ? `+${offset}` : offset}
+              </button>
+            ))}
           </div>
         </div>
       </header>

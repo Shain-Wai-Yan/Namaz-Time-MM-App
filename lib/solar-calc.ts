@@ -1,4 +1,9 @@
-// lib/solar-calc.ts
+/* ============================================================
+   OFFLINE ISLAMIC PRAYER TIME ENGINE
+   Reference-grade, fiqh-aware, deterministic, drift-free
+   ============================================================ */
+
+/* -------------------- Types -------------------- */
 
 export type PrayerTimes = {
   fajr: string
@@ -7,7 +12,7 @@ export type PrayerTimes = {
   asr: string
   maghrib: string
   isha: string
-  _mins?: {
+  _mins: {
     fajr: number
     sunrise: number
     zawal: number
@@ -25,65 +30,158 @@ export enum CalcMethod {
   Custom = "Custom",
 }
 
-const d2r = (d: number) => (d * Math.PI) / 180
-const r2d = (r: number) => (r * 180) / Math.PI
-const clamp = (v: number, a = -1, b = 1) => Math.max(a, Math.min(b, v))
+export enum HighLatRule {
+  None = "None",
+  MiddleOfNight = "MiddleOfNight",
+  OneSeventh = "OneSeventh",
+  AngleBased = "AngleBased",
+}
+
+/* -------------------- Constants -------------------- */
 
 const METHOD_ANGLES: Record<CalcMethod, { fajr: number; isha: number }> = {
-  [CalcMethod.MWL]: { fajr: -18, isha: -17 },
-  [CalcMethod.Karachi]: { fajr: -18, isha: -18 },
-  [CalcMethod.Egypt]: { fajr: -19.5, isha: -17.5 },
-  [CalcMethod.UmmAlQura]: { fajr: -18.5, isha: -90 }, // Isha handled separately
-  [CalcMethod.Custom]: { fajr: -18, isha: -18 },
+  MWL: { fajr: -18, isha: -17 },
+  Karachi: { fajr: -18, isha: -18 },
+  Egypt: { fajr: -19.5, isha: -17.5 },
+  UmmAlQura: { fajr: -18.5, isha: 0 }, // Isha by minutes
+  Custom: { fajr: -18, isha: -18 },
 }
 
-// --- Utility Functions ---
+const DEG2RAD = Math.PI / 180
+const RAD2DEG = 180 / Math.PI
 
-function declinationAndEoT(Nf: number) {
-  const B = (360 / 365) * (Nf - 81)
-  const Brad = d2r(B)
-  const delta = 23.45 * Math.sin(d2r((360 / 365) * (Nf - 81)))
-  const EoT = 9.87 * Math.sin(2 * Brad) - 7.53 * Math.cos(Brad) - 1.5 * Math.sin(Brad)
-  return { delta, EoT }
-}
+const sin = (d: number) => Math.sin(d * DEG2RAD)
+const cos = (d: number) => Math.cos(d * DEG2RAD)
+const tan = (d: number) => Math.tan(d * DEG2RAD)
+const asin = (x: number) => RAD2DEG * Math.asin(x)
+const acos = (x: number) => RAD2DEG * Math.acos(Math.min(1, Math.max(-1, x)))
+const atan = (x: number) => RAD2DEG * Math.atan(x)
 
-function hourAngleDeg(latDeg: number, declDeg: number, alphaDeg: number) {
-  const phi = d2r(latDeg)
-  const d = d2r(declDeg)
-  const cosH = clamp((Math.sin(d2r(alphaDeg)) - Math.sin(phi) * Math.sin(d)) / (Math.cos(phi) * Math.cos(d)))
-  return r2d(Math.acos(cosH))
-}
+/* -------------------- Julian Date -------------------- */
 
-function asrAltitudeDeg(latDeg: number, declDeg: number, shadowFactor: number) {
-  const phi = d2r(latDeg)
-  const d = d2r(declDeg)
-  return r2d(Math.atan(1 / (shadowFactor + Math.tan(Math.abs(phi - d)))))
-}
+function julianDate(date: Date) {
+  let y = date.getUTCFullYear()
+  let m = date.getUTCMonth() + 1
+  const d =
+    date.getUTCDate() +
+    (date.getUTCHours() +
+      date.getUTCMinutes() / 60 +
+      date.getUTCSeconds() / 3600) /
+      24
 
-function formatHM(hoursFloat: number) {
-  hoursFloat = ((hoursFloat % 24) + 24) % 24
-  let h = Math.floor(hoursFloat)
-  let m = Math.round((hoursFloat - h) * 60)
-  if (m === 60) {
-    m = 0
-    h = (h + 1) % 24
+  if (m <= 2) {
+    y--
+    m += 12
   }
-  const period = h >= 12 ? "PM" : "AM"
-  const displayH = h % 12 || 12
-  return `${displayH}:${m.toString().padStart(2, "0")} ${period}`
+
+  const A = Math.floor(y / 100)
+  const B = 2 - A + Math.floor(A / 4)
+
+  return (
+    Math.floor(365.25 * (y + 4716)) +
+    Math.floor(30.6001 * (m + 1)) +
+    d +
+    B -
+    1524.5
+  )
 }
 
-function hoursToMins(hours: number) {
-  return Math.round(hours * 60)
-}
-function minsToHours(mins: number) {
-  return mins / 60
+/* -------------------- High-Precision Solar Position -------------------- */
+
+function solarPosition(jd: number) {
+  const T = (jd - 2451545.0) / 36525
+
+  const L0 =
+    280.46646 +
+    36000.76983 * T +
+    0.0003032 * T * T
+
+  const M =
+    357.52911 +
+    35999.05029 * T -
+    0.0001537 * T * T
+
+  const e =
+    0.016708634 -
+    0.000042037 * T -
+    0.0000001267 * T * T
+
+  const C =
+    (1.914602 - 0.004817 * T) * sin(M) +
+    (0.019993 - 0.000101 * T) * sin(2 * M) +
+    0.000289 * sin(3 * M)
+
+  const lambda = L0 + C
+  const epsilon = 23.439291 - 0.0130042 * T
+
+  const decl = asin(sin(epsilon) * sin(lambda))
+
+  const y = Math.pow(tan(epsilon / 2), 2)
+
+  const EoT =
+    4 *
+    RAD2DEG *
+    (y * sin(2 * L0) -
+      2 * e * sin(M) +
+      4 * e * y * sin(M) * cos(2 * L0) -
+      0.5 * y * y * sin(4 * L0) -
+      1.25 * e * e * sin(2 * M))
+
+  return { decl, EoT }
 }
 
-// --- Hijri Calendar and Islamic Event Calculation Logic ---
+/* -------------------- Core Solar Math -------------------- */
 
-export function getHijriDate(date: Date, offset: number) {
-  // 1. Create a copy and apply the manual offset
+function hourAngle(lat: number, decl: number, angle: number) {
+  const num = sin(angle) - sin(lat) * sin(decl)
+  const den = cos(lat) * cos(decl)
+  return acos(num / den)
+}
+
+function asrAltitude(lat: number, decl: number, factor: 1 | 2) {
+  return atan(1 / (factor + tan(Math.abs(lat - decl))))
+}
+
+/* -------------------- Iterative Solver (3-pass) -------------------- */
+
+function solveTime(
+  lat: number,
+  lng: number,
+  tz: number,
+  jd: number,
+  angle: number,
+  beforeNoon: boolean,
+) {
+  let t = 12
+
+  for (let i = 0; i < 3; i++) {
+    const { decl, EoT } = solarPosition(jd + t / 24)
+    const noon = 12 + tz - lng / 15 - EoT / 60
+    const H = hourAngle(lat, decl, angle) / 15
+    t = beforeNoon ? noon - H : noon + H
+  }
+
+  return t
+}
+
+/* -------------------- Time Helpers -------------------- */
+
+const norm = (h: number) => ((h % 24) + 24) % 24
+
+function formatHM(h: number) {
+  h = norm(h)
+  const hh = Math.floor(h)
+  const mm = Math.round((h - hh) * 60)
+  const ap = hh >= 12 ? "PM" : "AM"
+  const h12 = hh % 12 || 12
+  return `${h12}:${mm.toString().padStart(2, "0")} ${ap}`
+}
+
+const hoursToMins = (h: number) => Math.round(norm(h) * 60)
+
+/* -------------------- Hijri (Civil, Offline) -------------------- */
+
+export function getHijriDate(date: Date, offset = 0) {
   const d = new Date(date)
   d.setDate(d.getDate() + offset)
 
@@ -91,38 +189,48 @@ export function getHijriDate(date: Date, offset: number) {
   let month = d.getMonth() + 1
   let year = d.getFullYear()
 
-  // 2. Julian Day Calculation
   if (month < 3) {
-    year -= 1
+    year--
     month += 12
   }
 
   const a = Math.floor(year / 100)
   const b = 2 - a + Math.floor(a / 4)
-  const jd = Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + b - 1524
 
-  // 3. Hijri Calculation (Civil Algorithm)
-  const epoch = 1948440 // The fixed Islamic Epoch
+  const jd =
+    Math.floor(365.25 * (year + 4716)) +
+    Math.floor(30.6001 * (month + 1)) +
+    day +
+    b -
+    1524
+
+  const epoch = 1948440
   const l0 = jd - epoch + 10632
   const n = Math.floor((l0 - 1) / 10631)
   const l = l0 - 10631 * n + 354
 
   const j =
-    Math.floor((10985 - l) / 5316) * Math.floor((50 * l + 2) / 17719) +
-    Math.floor(l / 5670) * Math.floor((43 * l + 2) / 15238)
+    Math.floor((10985 - l) / 5316) *
+      Math.floor((50 * l + 2) / 17719) +
+    Math.floor(l / 5670) *
+      Math.floor((43 * l + 2) / 15238)
 
   const l2 =
     l -
-    Math.floor((30 - j) / 15) * Math.floor((17719 * j + 2) / 50) -
-    Math.floor(j / 16) * Math.floor((15238 * j + 2) / 43) +
+    Math.floor((30 - j) / 15) *
+      Math.floor((17719 * j + 2) / 50) -
+    Math.floor(j / 16) *
+      Math.floor((15238 * j + 2) / 43) +
     29
 
-  const hMonth = Math.floor((24 * l2 + 3) / 709)
-  const hDay = l2 - Math.floor((709 * hMonth + 3) / 24)
-  const hYear = 30 * n + j - 30
+  const monthH = Math.floor((24 * l2 + 3) / 709)
+  const dayH = l2 - Math.floor((709 * monthH + 3) / 24)
+  const yearH = 30 * n + j - 30
 
-  return { day: hDay, month: hMonth, year: hYear }
+  return { day: dayH, month: monthH, year: yearH }
 }
+
+/* -------------------- Islamic Events -------------------- */
 
 export function getIslamicEvent(day: number, month: number) {
   const events = [
@@ -139,112 +247,106 @@ export function getIslamicEvent(day: number, month: number) {
     { m: 12, d: 10, key: "adha" },
   ]
 
-  return events.find((e) => {
-    if (e.range) {
-      return month === e.m && day >= e.d && day < e.d + e.range
-    }
-    return month === e.m && day === e.d
-  })
+  return events.find((e) =>
+    e.range
+      ? month === e.m && day >= e.d && day < e.d + e.range
+      : month === e.m && day === e.d,
+  )
 }
 
-// --- Ramadan Check ---
-function isRamadan(date: Date, hijriOffset: number) {
-  const hijriDate = getHijriDate(date, hijriOffset)
-  return hijriDate.month === 9
+/* -------------------- High Latitude -------------------- */
+
+function nightPortion(rule: HighLatRule, angle: number) {
+  if (rule === HighLatRule.AngleBased) return angle / 60
+  if (rule === HighLatRule.OneSeventh) return 1 / 7
+  if (rule === HighLatRule.MiddleOfNight) return 1 / 2
+  return 0
 }
 
-// --- High Latitude Adjustments ---
-function highLatitudeAdjustment(hours: number | null, fallback: number) {
-  return hours !== null && !isNaN(hours) ? hours : fallback
-}
-
-// --- Main Function ---
+/* -------------------- Main Calculator -------------------- */
 
 export function calculatePrayerTimesAdvanced(
   lat: number,
   lng: number,
   timezone: number,
-  date: Date = new Date(),
+  date = new Date(),
   method: CalcMethod = CalcMethod.Karachi,
-  asrShadow: 1 | 2 = 2,
-  customFajrAngle?: number,
-  customIshaAngle?: number,
-  hijriOffset = 0, // Added hijriOffset to parameter list
+  asrSchool: 1 | 2 = 2,
+  highLatRule: HighLatRule = HighLatRule.MiddleOfNight,
+  offsets = {
+    fajr: 2,//added 2 minutes for safety 
+    sunrise: 0,
+    zawal: 0,
+    asr: 0,
+    maghrib: 4, //added 4 minutes for safety 
+    isha: 2,//added 2 minutes for safety
+  },
+  hijriOffset = 0,
 ): PrayerTimes {
-  const methodAngles = METHOD_ANGLES[method]
-  const fajrAngle = method === CalcMethod.Custom && customFajrAngle !== undefined ? customFajrAngle : methodAngles.fajr
+  const jd = julianDate(date)
+  const angles = METHOD_ANGLES[method]
 
-  const ishaAngle = method === CalcMethod.Custom && customIshaAngle !== undefined ? customIshaAngle : methodAngles.isha
+  const sunrise = solveTime(lat, lng, timezone, jd, -0.833, true)
+  const sunset = solveTime(lat, lng, timezone, jd, -0.833, false)
 
-  const dayStart = Date.UTC(date.getUTCFullYear(), 0, 1)
-  const dayIndex =
-    Math.floor((Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) - dayStart) / 86400000) + 1
+  const night = sunrise + 24 - sunset
+  const portion = nightPortion(highLatRule, Math.abs(angles.fajr))
 
-  const getSolar = (localHour: number) => {
-    const utcHour = localHour - timezone
-    let Nf = dayIndex + utcHour / 24
-    if (utcHour < 0) Nf = dayIndex - 1 + (utcHour + 24) / 24
-    else if (utcHour >= 24) Nf = dayIndex + 1 + (utcHour - 24) / 24
-    return declinationAndEoT(Nf)
-  }
+  let fajr = solveTime(lat, lng, timezone, jd, angles.fajr, true)
+  if (isNaN(fajr)) fajr = sunrise - night * portion
 
-  const solvePrayer = (alphaDeg: number, beforeNoon: boolean) => {
-    let t = 12 + timezone - lng / 15 // Start estimate
-    for (let i = 0; i < 3; i++) {
-      const { delta: d, EoT: e } = getSolar(t)
-      const noon = 12 + timezone - lng / 15 - e / 60
-      const H = hourAngleDeg(lat, d, alphaDeg)
-      t = beforeNoon ? noon - H / 15 : noon + H / 15
-    }
-    return t
-  }
-
-  const { delta, EoT } = getSolar(12)
-  const solarNoon = 12 + timezone - lng / 15 - EoT / 60
-
-  // --- Prayer Calculations ---
-
-  const fajrLocal = highLatitudeAdjustment(solvePrayer(fajrAngle, true), 5) + 1 / 60
-
-  const sunriseLocal = highLatitudeAdjustment(solvePrayer(-1.1, true), 6)
-
-  const zawalLocal = solarNoon
-
-  const asrLocal = highLatitudeAdjustment(solvePrayer(asrAltitudeDeg(lat, delta, asrShadow), false), zawalLocal + 1)
-
-  const maghribLocal = highLatitudeAdjustment(solvePrayer(-1.1, false), zawalLocal + 0.1) + 2.5 / 60
-
-  let ishaLocal: number
+  let isha: number
   if (method === CalcMethod.UmmAlQura) {
-    const isRamadanMonth = isRamadan(date, hijriOffset)
-    const offset = isRamadanMonth ? 120 : 90
-    ishaLocal = maghribLocal + minsToHours(offset)
+    const hijri = getHijriDate(date, hijriOffset)
+    isha = sunset + (hijri.month === 9 ? 2 : 1.5)
   } else {
-    ishaLocal = highLatitudeAdjustment(solvePrayer(ishaAngle, false), maghribLocal + 1.5) + 1.5 / 60
+    isha = solveTime(lat, lng, timezone, jd, angles.isha, false)
+    if (isNaN(isha)) isha = sunset + night * portion
   }
 
-  const resultMins = {
-    fajr: hoursToMins(fajrLocal),
-    sunrise: hoursToMins(sunriseLocal),
-    zawal: hoursToMins(zawalLocal),
-    asr: hoursToMins(asrLocal),
-    maghrib: hoursToMins(maghribLocal),
-    isha: hoursToMins(ishaLocal),
+  const { decl } = solarPosition(jd)
+  const asr = solveTime(
+    lat,
+    lng,
+    timezone,
+    jd,
+    asrAltitude(lat, decl, asrSchool),
+    false,
+  )
+
+  const zawal = (sunrise + sunset) / 2
+
+  const times = {
+    fajr: fajr + offsets.fajr / 60,
+    sunrise: sunrise + offsets.sunrise / 60,
+    zawal: zawal + offsets.zawal / 60,
+    asr: asr + offsets.asr / 60,
+    maghrib: sunset + offsets.maghrib / 60,
+    isha: isha + offsets.isha / 60,
   }
 
   return {
-    fajr: formatHM(fajrLocal),
-    sunrise: formatHM(sunriseLocal),
-    zawal: formatHM(zawalLocal),
-    asr: formatHM(asrLocal),
-    maghrib: formatHM(maghribLocal),
-    isha: formatHM(ishaLocal),
-    _mins: resultMins,
+    fajr: formatHM(times.fajr),
+    sunrise: formatHM(times.sunrise),
+    zawal: formatHM(times.zawal),
+    asr: formatHM(times.asr),
+    maghrib: formatHM(times.maghrib),
+    isha: formatHM(times.isha),
+    _mins: {
+      fajr: hoursToMins(times.fajr),
+      sunrise: hoursToMins(times.sunrise),
+      zawal: hoursToMins(times.zawal),
+      asr: hoursToMins(times.asr),
+      maghrib: hoursToMins(times.maghrib),
+      isha: hoursToMins(times.isha),
+    },
   }
 }
 
-// 🔹 Backward compatibility alias
+/* -------------------- Backward Compatibility -------------------- */
+
 export const calculatePrayerTimes = calculatePrayerTimesAdvanced
+
 
 export const CITIES = [
   { name: "Yangon", slug: "yangon", lat: 16.8661, lng: 96.1951, timezone: 6.5 },

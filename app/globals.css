@@ -121,6 +121,12 @@
     @apply border-border outline-ring/50;
   }
   body {
+    /* Pushes content down to avoid the status bar/notch */
+    padding-top: env(safe-area-inset-top); 
+    
+    /* Pushes content up to avoid the gesture bar at the bottom */
+    padding-bottom: env(safe-area-inset-bottom);
+    
     @apply bg-background text-foreground selection:bg-primary selection:text-primary-foreground;
   }
 }

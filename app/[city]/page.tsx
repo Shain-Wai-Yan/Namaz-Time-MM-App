@@ -4,6 +4,16 @@ import type { Metadata } from "next"
 
 type Params = Promise<{ city: string }>
 
+/**
+ * THIS IS THE KEY: It tells Next.js to pre-render all city pages 
+ * into static HTML files during "npm run build".
+ */
+export async function generateStaticParams() {
+  return CITIES.map((city) => ({
+    city: city.slug,
+  }))
+}
+
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { city } = await params
   const cityData = CITIES.find((c) => c.slug === city)
@@ -20,9 +30,17 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 export default async function CityPage({ params }: { params: Params }) {
+  // Await params for Next.js 15 compatibility
   const { city } = await params
   const cityData = CITIES.find((c) => c.slug === city)
-  if (!cityData) return <div>City not found</div>
+
+  if (!cityData) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-white text-emerald-900">
+        <p className="text-xl font-medium">City not found</p>
+      </div>
+    )
+  }
 
   const date = new Date()
   const initialTimes = calculatePrayerTimes(
@@ -40,7 +58,7 @@ export default async function CityPage({ params }: { params: Params }) {
   const hijri = getHijriDate(date, 0)
   const event = getIslamicEvent(hijri.day, hijri.month)
 
-  // JSON-LD Structured Data
+  // JSON-LD Structured Data for SEO (Still useful if you host a web version)
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Dataset",
@@ -49,14 +67,21 @@ export default async function CityPage({ params }: { params: Params }) {
     spatialCoverage: {
       "@type": "Place",
       name: cityData.name,
-      geo: { "@type": "GeoCoordinates", latitude: cityData.lat, longitude: cityData.lng },
+      geo: { 
+        "@type": "GeoCoordinates", 
+        latitude: cityData.lat, 
+        longitude: cityData.lng 
+      },
     },
     variableMeasured: ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"],
   }
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <PrayerTimesClient
         initialTimes={initialTimes}
         initialCity={cityData}

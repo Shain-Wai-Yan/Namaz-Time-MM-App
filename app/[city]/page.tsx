@@ -2,10 +2,19 @@ import { calculatePrayerTimes, getHijriDate, getIslamicEvent, CITIES, CalcMethod
 import PrayerTimesClient from "@/components/prayer-times-client"
 import type { Metadata } from "next"
 
-type Params = Promise<{ city: string }>
+// Revalidate every 1 hour (3600 seconds) for fresh prayer times
+export const revalidate = 3600
 
+type Params = { city: string }
+
+// Generate static paths for all cities for SSG
+export async function generateStaticParams() {
+  return CITIES.map((c) => ({ city: c.slug }))
+}
+
+// Dynamic metadata for SEO
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-  const { city } = await params
+  const { city } = params
   const cityData = CITIES.find((c) => c.slug === city)
   if (!cityData) return { title: "Prayer Times" }
 
@@ -15,12 +24,30 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return {
     title,
     description,
-    openGraph: { title, description },
+    openGraph: {
+      title,
+      description,
+      url: `https://azan.mm/${city}`,
+      siteName: "Azan MM",
+      type: "website",
+    },
+    twitter: {
+      title,
+      description,
+      card: "summary_large_image",
+    },
+    alternates: {
+      canonical: `https://azan.mm/${city}`,
+      languages: {
+        "en-US": `/en/${city}`,
+        "my-MM": `/mm/${city}`,
+      },
+    },
   }
 }
 
 export default async function CityPage({ params }: { params: Params }) {
-  const { city } = await params
+  const { city } = params
   const cityData = CITIES.find((c) => c.slug === city)
   if (!cityData) return <div>City not found</div>
 
@@ -31,16 +58,12 @@ export default async function CityPage({ params }: { params: Params }) {
     cityData.timezone,
     date,
     CalcMethod.Karachi,
-    2,
-    undefined,
-    undefined,
-    0,
+    2
   )
 
   const hijri = getHijriDate(date, 0)
   const event = getIslamicEvent(hijri.day, hijri.month)
 
-  // JSON-LD Structured Data
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Dataset",
@@ -52,11 +75,15 @@ export default async function CityPage({ params }: { params: Params }) {
       geo: { "@type": "GeoCoordinates", latitude: cityData.lat, longitude: cityData.lng },
     },
     variableMeasured: ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"],
+    data: initialTimes, // Include actual times for Google indexing
   }
 
   return (
     <>
+      {/* JSON-LD Structured Data */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+
+      {/* Client Component for Interactivity */}
       <PrayerTimesClient
         initialTimes={initialTimes}
         initialCity={cityData}

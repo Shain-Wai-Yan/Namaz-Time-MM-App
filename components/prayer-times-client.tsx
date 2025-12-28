@@ -262,7 +262,8 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
   ]
 
   return (
-    <main className="min-h-screen bg-background text-foreground flex flex-col p-6 md:p-20 max-w-5xl mx-auto font-sans selection:bg-primary selection:text-white relative">
+    <main className="min-h-screen bg-background text-foreground flex flex-col font-sans selection:bg-primary selection:text-white relative">
+  <div className="w-full max-w-5xl mx-auto p-6 md:p-16 lg:p-24 flex flex-col flex-1">
       {showNoti && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-background/80 backdrop-blur-sm">
           <div className="bg-background border border-primary/20 p-8 md:p-12 max-w-lg shadow-2xl relative overflow-hidden group">
@@ -533,6 +534,7 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
           <span className="py-1">{asrShadow === 2 ? "Hanafi Rule" : "Shafi Rule"}</span>
         </div>
       </footer>
+      </div>
     </main>
   )
 }

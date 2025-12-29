@@ -89,6 +89,8 @@ To change the name shown on the phone home screen:
 - Update `appName` in `capacitor.config.ts`
 - Update `<string name="app_name">` in  
   `android/app/src/main/res/values/strings.xml`
+  to change the app icon use command 
+  - npx capacitor-assets generate --android _
 
 ## 👨‍💻 About the Creator
 

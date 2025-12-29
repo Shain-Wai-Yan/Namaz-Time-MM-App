@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef} from "react"
 import {
   calculatePrayerTimes,
   getHijriDate,
@@ -138,127 +138,167 @@ const translations = {
   },
 }
 
-export default function PrayerTimesClient({ initialTimes, initialCity, initialHijri, initialEvent, isRegional }: any) {
-  const router = useRouter()
-  const [lang, setLang] = useState<"my" | "en">("my")
-  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
-    initialCity ? { lat: initialCity.lat, lng: initialCity.lng } : null,
-  )
-  const [times, setTimes] = useState<PrayerTimes | null>(initialTimes || null)
-  const [loading, setLoading] = useState(true)
-  const [isRefreshing, setIsRefreshing] = useState(false)
-  const [currentTime, setCurrentTime] = useState(new Date())
-  const [asrShadow, setAsrShadow] = useState<1 | 2>(2)
-  const [showAbout, setShowAbout] = useState(false)
-  const [showNoti, setShowNoti] = useState(false)
-  const [hijriOffset, setHijriOffset] = useState(0)
-  const [showCityMenu, setShowCityMenu] = useState(false)
-  const [showMethodMenu, setShowMethodMenu] = useState(false)
-  const [method, setMethod] = useState<CalcMethod>(CalcMethod.Karachi)
+export default function PrayerTimesClient({
+  initialTimes,
+  initialCity,
+  initialHijri,
+  initialEvent,
+  isRegional,
+}: any) {
+  const router = useRouter();
 
-  // --------------------------
-  // Helper: Refresh location
-  // --------------------------
-  const refreshLocation = useCallback(async () => {
-    if (isRefreshing) return
-    setIsRefreshing(true)
-    setLoading(true)
+  const [lang, setLang] = useState<"my" | "en">("my");
+  const [location, setLocation] = useState<{
+    lat: number;
+    lng: number;
+    timezone: number;
+  } | null>(
+    initialCity
+      ? {
+          lat: initialCity.lat,
+          lng: initialCity.lng,
+          timezone: initialCity.timezone,
+        }
+      : null
+  );
+  const [times, setTimes] = useState<PrayerTimes | null>(initialTimes || null);
+  const [loading, setLoading] = useState(!initialTimes);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [gpsError, setGpsError] = useState<string | null>(null);
 
-    try {
-      const coordinates = await Geolocation.getCurrentPosition({
-        enableHighAccuracy: true, // safe for mobile
-        timeout: 30000,
-      })
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [asrShadow, setAsrShadow] = useState<1 | 2>(2);
+  const [showAbout, setShowAbout] = useState(false);
+  const [showNoti, setShowNoti] = useState(false);
+  const [hijriOffset, setHijriOffset] = useState(0);
+  const [showCityMenu, setShowCityMenu] = useState(false);
+  const [showMethodMenu, setShowMethodMenu] = useState(false);
+  const [method, setMethod] = useState<CalcMethod>(CalcMethod.Karachi);
 
-      const { latitude: lat, longitude: lng } = coordinates.coords
-      setLocation({ lat, lng })
+  const hasRequestedGPS = useRef(false); // 🔹 Track first install GPS
 
-      const timezone = -new Date().getTimezoneOffset() / 60
-      const calculated = calculatePrayerTimes(
-        lat,
-        lng,
-        timezone,
-        new Date(),
-        method,
-        asrShadow,
-        undefined,
-        undefined,
-        hijriOffset
-      )
-      setTimes(calculated)
-    } catch (error) {
-      console.error("GPS Error:", error)
-      // Optional: fallback or user notification
-    } finally {
-      setLoading(false)
-      setTimeout(() => setIsRefreshing(false), 3000)
-    }
-  }, [isRefreshing, method, asrShadow, hijriOffset])
-
-  // --------------------------
-  // Initial setup
-  // --------------------------
+  /* --------------------------------------------------
+     1. BOOTSTRAP (URL CITY → CACHE → FORCE GPS)
+     -------------------------------------------------- */
   useEffect(() => {
-    // Show notification only once per session
-    const hasSeenNoti = sessionStorage.getItem("v0_prayer_noti_seen")
-    if (!hasSeenNoti) {
-      setShowNoti(true)
-      sessionStorage.setItem("v0_prayer_noti_seen", "true")
+    let resolved = false;
+
+    // 1️⃣ URL city has highest priority
+    if (initialCity) {
+      resolved = true;
+      setLocation({
+        lat: initialCity.lat,
+        lng: initialCity.lng,
+        timezone: initialCity.timezone,
+      });
+    }
+
+    // 2️⃣ Cached GPS (only if no URL city)
+    if (!resolved) {
+      const cached = localStorage.getItem("last_location");
+      if (cached) {
+        try {
+          const parsed = JSON.parse(cached);
+          if (typeof parsed.lat === "number" && typeof parsed.lng === "number") {
+            setLocation(parsed);
+            resolved = true;
+          }
+        } catch {
+          localStorage.removeItem("last_location");
+        }
+      }
+    }
+
+    // 3️⃣ FRESH START: No cache, No URL? Force GPS prompt immediately
+    if (!resolved && !isRegional && !hasRequestedGPS.current) {
+      hasRequestedGPS.current = true;
+      refreshLocation(); // 🔹 triggers permission dialog
+    } else {
+      setLoading(false);
+    }
+
+    // Show notification once per session
+    if (!sessionStorage.getItem("v0_prayer_noti_seen")) {
+      setShowNoti(true);
+      sessionStorage.setItem("v0_prayer_noti_seen", "true");
     }
 
     // Update current time every second
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000)
-    return () => clearInterval(timer)
-  }, [])
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, [initialCity, isRegional]);
 
-  // --------------------------
-  // Calculate prayer times
-  // --------------------------
+  /* --------------------------------------------------
+     2. SAFE GPS REFRESH (PERMISSION + CACHE)
+     -------------------------------------------------- */
+  const refreshLocation = useCallback(async () => {
+    if (isRefreshing) return;
+    setIsRefreshing(true);
+    setGpsError(null);
+    setLoading(true);
+
+    try {
+      // Force getCurrentPosition, let native layer handle permissions
+      const pos = await Geolocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 15000,
+      });
+
+      const loc = {
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude,
+        timezone: -new Date().getTimezoneOffset() / 60,
+      };
+
+      setLocation(loc);
+      localStorage.setItem("last_location", JSON.stringify(loc));
+    } catch (err) {
+      console.error("GPS Error:", err);
+      setGpsError("Unable to acquire location");
+    } finally {
+      setIsRefreshing(false);
+      setLoading(false);
+    }
+  }, [isRefreshing]);
+
+  /* --------------------------------------------------
+     3. PRAYER CALCULATION (SYSTEM TZ AWARE)
+     -------------------------------------------------- */
   useEffect(() => {
-    const timezone = -new Date().getTimezoneOffset() / 60
+    if (!location) {
+      setLoading(true);
+      return;
+    }
 
-    if (initialCity) {
-      const cityTimezone = initialCity.timezone || timezone
-      const calculated = calculatePrayerTimes(
-        initialCity.lat,
-        initialCity.lng,
-        cityTimezone,
-        new Date(),
-        method,
-        asrShadow,
-        undefined,
-        undefined,
-        hijriOffset
-      )
-      if (!location || location.lat !== initialCity.lat || location.lng !== initialCity.lng) {
-        setLocation({ lat: initialCity.lat, lng: initialCity.lng })
-      }
-      setTimes(calculated)
-      setLoading(false)
-    } else if (!location) {
-      refreshLocation() // safe call
-    } else {
+    const liveTimezone = -new Date().getTimezoneOffset() / 60;
+
+    try {
       const calculated = calculatePrayerTimes(
         location.lat,
         location.lng,
-        timezone,
+        liveTimezone,
         new Date(),
         method,
         asrShadow,
         undefined,
         undefined,
         hijriOffset
-      )
-      setTimes(calculated)
-    }
-  }, [asrShadow, hijriOffset, initialCity, method, location, refreshLocation])
+      );
 
-  // --------------------------
-  // Derived values
-  // --------------------------
-  const t = translations[lang]
-  const hijri = getHijriDate(currentTime, hijriOffset)
-  const event = hijri ? getIslamicEvent(hijri.day, hijri.month) : null
+      setTimes(calculated);
+    } catch (error) {
+      console.error("Calculation Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [location, method, asrShadow, hijriOffset]);
+
+  /* --------------------------------------------------
+     4. DERIVED VALUES
+     -------------------------------------------------- */
+  const t = translations[lang];
+  const hijri = getHijriDate(currentTime, hijriOffset);
+  const event = hijri ? getIslamicEvent(hijri.day, hijri.month) : null;
 
   const prayers = [
     { name: t.fajr, time: times?.fajr },
@@ -267,8 +307,8 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
     { name: t.asr, time: times?.asr, isAsr: true },
     { name: t.maghrib, time: times?.maghrib },
     { name: t.isha, time: times?.isha },
-  ]
-
+  ];
+  
   return (
     <main className="min-h-screen bg-background text-foreground flex flex-col font-sans selection:bg-primary selection:text-white relative">
   <div className="w-full max-w-5xl mx-auto p-6 md:p-16 lg:p-24 flex flex-col flex-1">

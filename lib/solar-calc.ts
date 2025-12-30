@@ -274,8 +274,8 @@ export function calculatePrayerTimesAdvanced(
   asrSchool: 1 | 2 = 2,
   highLatRule: HighLatRule = HighLatRule.MiddleOfNight,
   offsets = {
-    fajr: 2,//added 2 minutes for safety 
-    sunrise: 0,
+    fajr: 0,
+    sunrise: -2,
     zawal: 0,
     asr: 0,
     maghrib: 4, //added 4 minutes for safety 

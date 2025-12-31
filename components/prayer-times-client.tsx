@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback, useRef } from "react"
+import { translations } from "@/lib/translations"
 import {
   calculatePrayerTimes,
   getHijriDate,
@@ -14,253 +15,151 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Geolocation } from "@capacitor/geolocation"
 import { schedulePrayerNotifications, createNotificationChannels } from "@/lib/notifications"
-
-const translations = {
-  en: {
-    schedule: "Schedule",
-    fajr: "Fajr",
-    sunrise: "Sunrise",
-    zawal: "Zawal",
-    asr: "Asr",
-    maghrib: "Maghrib",
-    isha: "Isha",
-    prayer: "Prayer",
-    time: "Time (Local)",
-    refresh: "Refresh Location",
-    method: "Calculation Method",
-    method_names: {
-      [CalcMethod.Karachi]: "Karachi (Hanafi)",
-      [CalcMethod.MWL]: "Muslim World League",
-      [CalcMethod.Egypt]: "Egyptian General Authority",
-      [CalcMethod.UmmAlQura]: "Umm al-Qura (KSA)",
-    },
-    hijri_adj: "Hijri Adj",
-    events: "Notable Events",
-    months: [
-      "Muharram",
-      "Safar",
-      "Rabi' al-Awwal",
-      "Rabi' al-Thani",
-      "Jumada al-Ula",
-      "Jumada al-Akhirah",
-      "Rajab",
-      "Sha'ban",
-      "Ramadan",
-      "Shawwal",
-      "Dhu al-Qi'dah",
-      "Dhu al-Hijjah",
-    ],
-    event_names: {
-      new_year: "Islamic New Year",
-      ashura: "Day of Ashura",
-      mawlid: "Mawlid al-Nabi",
-      isra: "Isra' and Mi'raj",
-      baraat: "Laylat al-Bara'at",
-      ramadan_start: "Ramadan Start",
-      qadr: "Laylat al-Qadr (Last 10 Nights)",
-      fitr: "Eid al-Fitr",
-      hajj: "Hajj Season",
-      arafah: "Day of Arafah",
-      adha: "Eid al-Adha",
-    },
-    rule: "Asr Shadow Rule",
-    requesting: "Requesting Location...",
-    about: "About the Creator",
-    about_title: "About the Creator",
-    about_desc:
-      "This app was created by Shain Wai Yan (Muhamadd Xolbine), a developer and digital creator who believes technology should be simple, accurate, and meaningful. Built with a focus on precision and accessibility, this prayer time app uses astronomical calculations instead of online APIs, ensuring reliable Azan times that work even offline. The project was designed with Myanmar users in mind, while remaining usable anywhere in the world. This app is a personal effort to combine faith, mathematics, and thoughtful engineering into something practical for everyday life.",
-    close: "Close",
-    noti_title: "Important Notice",
-    noti_message:
-      "This app is calculated for areas far from mosques where the Adhan cannot be heard, or areas without mosques. To ensure safety and reliability, it is recommended to wait 5-10 minutes after the calculated time before starting your prayer.",
-    select_city: "Select City",
-    home: "Home",
-  },
-  my: {
-    schedule: "နမာဇ်အချိန်ဇယား",
-    fajr: "ဖဂျရ်",
-    sunrise: "နေထွက်ချိန်",
-    zawal: "ဇဝါလ်",
-    asr: "အဆွရ်",
-    maghrib: "မဂ်ရိဗ်",
-    isha: "အေရှာ",
-    prayer: "ဝတ်ပြုချိန်",
-    time: "အချိန်",
-    refresh: "တည်နေရာအသစ်ရယူရန်",
-    method: "တွက်ချက်မှုစနစ်",
-    method_names: {
-      [CalcMethod.Karachi]: "Karachi တွက်ချက်မှုစနစ်",
-      [CalcMethod.MWL]: "Muslim World League",
-      [CalcMethod.Egypt]: "Egyptian Authority",
-      [CalcMethod.UmmAlQura]: "Umm al-Qura",
-    },
-    hijri_adj: "ရက်စွဲညှိရန်",
-    events: "ထူးခြားသောနေ့ရက်များ",
-    months: [
-      "မူဟရ်ရမ်",
-      "ဆွဖရ်",
-      "ရဗီအွလ်အောင်ဝလ်",
-      "ရဗီအွစ်ဆာနီ",
-      "ဂျုမာဒိလ်အောင်ဝလ်",
-      "ဂျုမာဒိလ်အာခိရ်",
-      "ရဂျပ်",
-      "ရှအ်ဘာန်",
-      "ရမ်ဇာန်",
-      "ရှောင်ဝါလ်",
-      "ဇူလ်ကအ်ဒဟ်",
-      "ဇူလ်ဟဂျဟ်",
-    ],
-    event_names: {
-      new_year: "အစ္စလာမ့်နှစ်သစ်ကူး",
-      ashura: "အာရှူရာနေ့",
-      mawlid: "မောင်လစ်ဒ်နေ့",
-      isra: "အစ်ရာနှင့်မအ်ရာဂ်ျ",
-      baraat: "ရှဗေဗရာသ်ည",
-      ramadan_start: "ရမ်ဇာန်စတင်ခြင်း",
-      qadr: "လိုင်လသွလ်ကဒရ် (နောက်ဆုံး ၁၀ ည)",
-      fitr: "အီးဒွလ်ဖိသရ်",
-      hajj: "ဟဂျ်ရာသီ",
-      arafah: "အရဖဟ်နေ့",
-      adha: "အီးဒွလ်အဿွဟာ",
-    },
-    rule: "Asr Shadow Rule",
-    requesting: "တည်နေရာရှာဖွေနေသည်...",
-    about: "ဖန်တီးသူအကြောင်း",
-    about_title: "ဖန်တီးသူအကြောင်း",
-    about_desc:
-      "ဤအက်ပ်ကို နည်းပညာသည် ရိုးရှင်း၊ တိကျပြီး အဓိပ္ပာယ်ရှိရမည်ဟု ယုံကြည်မှုလက်ကိုင်ထားသည့် Developer နှင့် Digital Creator တစ်ဦးဖြစ်သူ ရှိန်းဝေယံ (Muhamadd Xolbine) မှ ဖန်တီးထားခြင်း ဖြစ်ပါသည်။တိကျမှုရှိ‌‌စေရန်နှင့် လူတိုင်းအလွယ်တကူ အသုံးပြုနိုင်မှုကို အဓိကထား၍ တည်ဆောက်ထားသည့် Prayer Time app သည် အွန်လိုင်း API များအပေါ် မှီခိုခြင်းမပြုဘဲ နက္ခတ္တဗေဒဆိုင်ရာ တွက်ချက်မှုစနစ် (Astronomical Calculations) ကို အသုံးပြုထားသောကြောင့် အော့ဖ်လိုင်းဖြစ်နေချိန်တွင်ပင် အာဇန် (Azan) အချိန်များကို စိတ်ချယုံကြည်စွာ ကြည့်ရှုနိုင်မည် ဖြစ်ပါသည်။ဤပရောဂျက်ကို အဓိကအားဖြင့် မြန်မာနိုင်ငံရှိ အသုံးပြုသူများအတွက် ရည်ရွယ်ကာ ပုံဖော်ထားခြင်းဖြစ်သော်လည်း ကမ္ဘာ့မည်သည့်နေရာတွင်မဆို အသုံးပြုနိုင်ပါသည်။ ဤ app ကို သက်ဝင်ယုံကြည်မှု၊ သင်္ချာပညာနှင့် စဉ်းစားတွေးခေါ်မှုရှိသော အင်ဂျင်နီယာအတတ်ပညာတို့ကို ပေါင်းစပ်ပြီး နေ့စဉ်ဘဝအတွက် လက်တွေ့ကျသည့် အရာတစ်ခုဖြစ်လာစေရန် ကိုယ်တိုင်ကြိုးပမ်းအားထုတ်ထားခြင်းလည်း ဖြစ်ပါသည်။",
-    close: "ပိတ်မည်",
-    noti_title: "အရေးကြီးသတိပေးချက်",
-    noti_message:
-      "ဗလီနဲ့ဝေး၍ အာဇာန်သံမကြားရသောနေရာများ ၊ ဗလီမရှိသောအရပ်ဒေသများ၌ နမာဇ်ချိန်သိရရန်ရည်ရွယ်၍တွက်ချက်ထားပေးသည်ဖြစ်ရာလုံခြုံစိတ်ချရမှုရှိစေရန် 5-10 မိနစ်ဝန်းကျင်ခြား၍သာ နမာဇ်ဖတ်ကြပါရန်သတိပေးအပ်ပါသည် !!!",
-    select_city: "မြို့ကိုရွေးချယ်ပါ",
-    home: "ပင်မစာမျက်နှာ",
-  },
-}
+import { loadSettings, saveSettings, type UserSettings } from "@/lib/storage"
 
 export default function PrayerTimesClient({ initialTimes, initialCity, initialHijri, initialEvent, isRegional }: any) {
   const router = useRouter()
 
-  const [lang, setLang] = useState<"my" | "en">("my")
+  const [settings, setSettings] = useState<UserSettings>(() => {
+    if (typeof window === "undefined") {
+      return {
+        method: 0,
+        asrShadow: 2,
+        hijriOffset: 0,
+        language: "my",
+        prayerSoundSettings: {
+          fajr: true,
+          dhuhr: true,
+          asr: true,
+          maghrib: true,
+          isha: true,
+        },
+        lastUpdated: Date.now(),
+      }
+    }
+    return loadSettings()
+  })
+
   const [location, setLocation] = useState<{
     lat: number
     lng: number
     timezone: number
-  } | null>(
-    initialCity
-      ? {
-          lat: initialCity.lat,
-          lng: initialCity.lng,
-          timezone: initialCity.timezone,
-        }
-      : null,
-  )
+  } | null>(null)
+
   const [times, setTimes] = useState<PrayerTimes | null>(initialTimes || null)
   const [loading, setLoading] = useState(!initialTimes)
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [gpsError, setGpsError] = useState<string | null>(null)
 
   const [currentTime, setCurrentTime] = useState(new Date())
-  const [asrShadow, setAsrShadow] = useState<1 | 2>(2)
   const [showAbout, setShowAbout] = useState(false)
   const [showNoti, setShowNoti] = useState(false)
-  const [hijriOffset, setHijriOffset] = useState(0)
   const [showCityMenu, setShowCityMenu] = useState(false)
   const [showMethodMenu, setShowMethodMenu] = useState(false)
-  const [method, setMethod] = useState<CalcMethod>(CalcMethod.Karachi)
+  const [showSettingsSaved, setShowSettingsSaved] = useState(false)
 
-  const hasRequestedGPS = useRef(false) // 🔹 Track first install GPS
+  const hasRequestedGPS = useRef(false)
+  const gpsTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const notificationDebounceTimer = useRef<NodeJS.Timeout | null>(null)
 
-  /* --------------------------------------------------
-     1. BOOTSTRAP (URL CITY → CACHE → FORCE GPS)
-     -------------------------------------------------- */
+  const updateSettings = useCallback((updates: Partial<UserSettings>) => {
+    setSettings((prev) => {
+      return { ...prev, ...updates }
+    })
+  }, [])
+
+  useEffect(() => {
+    saveSettings(settings)
+
+    const timer = setTimeout(() => {
+      setShowSettingsSaved(true)
+      setTimeout(() => setShowSettingsSaved(false), 2000)
+    }, 300)
+
+    return () => clearTimeout(timer)
+  }, [settings])
+
   useEffect(() => {
     let resolved = false
 
-    // 1️⃣ URL city has highest priority
+    // Priority 1: Use initialCity from URL (regional pages)
     if (initialCity) {
-      resolved = true
+      console.log("[v0] Using initialCity:", initialCity.name)
       setLocation({
         lat: initialCity.lat,
         lng: initialCity.lng,
         timezone: initialCity.timezone,
       })
+      resolved = true
     }
 
-    // 2️⃣ Cached GPS (only if no URL city)
-    if (!resolved) {
+    // Priority 2: Try to load cached location from localStorage
+    if (!resolved && typeof window !== "undefined") {
       const cached = localStorage.getItem("last_location")
       if (cached) {
         try {
           const parsed = JSON.parse(cached)
           if (typeof parsed.lat === "number" && typeof parsed.lng === "number") {
+            console.log("[v0] Using cached location:", parsed)
             setLocation(parsed)
             resolved = true
           }
-        } catch {
+        } catch (err) {
+          console.error("[v0] Failed to parse cached location:", err)
           localStorage.removeItem("last_location")
         }
       }
     }
 
-    // 3️⃣ FRESH START: No cache, No URL? Force GPS prompt immediately
+    // Priority 3: Request fresh GPS location only for non-regional pages
     if (!resolved && !isRegional && !hasRequestedGPS.current) {
       hasRequestedGPS.current = true
-      refreshLocation() // 🔹 triggers permission dialog
+      console.log("[v0] Requesting GPS position...")
+      refreshLocation()
     } else {
-      setLoading(false)
+      // If we have a location (initial city or cached), stop loading
+      if (resolved) {
+        setLoading(false)
+      }
     }
 
-    // Show notification once per session
-    if (!sessionStorage.getItem("v0_prayer_noti_seen")) {
+    // Show notification modal on first visit
+    if (typeof window !== "undefined" && !sessionStorage.getItem("v0_prayer_noti_seen")) {
       setShowNoti(true)
       sessionStorage.setItem("v0_prayer_noti_seen", "true")
     }
 
-    // Update current time every second
+    // Clock tick and notification channels
     const timer = setInterval(() => setCurrentTime(new Date()), 1000)
-    createNotificationChannels() // 🔹 Create notification channel on boot
+    createNotificationChannels()
     return () => clearInterval(timer)
   }, [initialCity, isRegional])
 
-  /* --------------------------------------------------
-     2. SAFE GPS REFRESH (PERMISSION + CACHE)
-     -------------------------------------------------- */
-  const refreshLocation = useCallback(async () => {
-    if (isRefreshing) return
-    setIsRefreshing(true)
-    setGpsError(null)
-    setLoading(true)
-
-    try {
-      // Force getCurrentPosition, let native layer handle permissions
-      const pos = await Geolocation.getCurrentPosition({
-        enableHighAccuracy: true,
-        timeout: 15000,
-      })
-
-      const loc = {
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude,
-        timezone: -new Date().getTimezoneOffset() / 60,
-      }
-
-      setLocation(loc)
-      localStorage.setItem("last_location", JSON.stringify(loc))
-    } catch (err) {
-      console.error("GPS Error:", err)
-      setGpsError("Unable to acquire location")
-    } finally {
-      setIsRefreshing(false)
-      setLoading(false)
+  const scheduleNotificationsDebounced = useCallback((loc: typeof location, sett: UserSettings) => {
+    if (notificationDebounceTimer.current) {
+      clearTimeout(notificationDebounceTimer.current)
     }
-  }, [isRefreshing])
 
-  /* --------------------------------------------------
-     3. PRAYER CALCULATION (SYSTEM TZ AWARE)
-     -------------------------------------------------- */
+    notificationDebounceTimer.current = setTimeout(() => {
+      if (loc) {
+        const liveTimezone = -new Date().getTimezoneOffset() / 60
+        schedulePrayerNotifications(
+          loc.lat,
+          loc.lng,
+          liveTimezone,
+          sett.method as CalcMethod,
+          sett.asrShadow,
+          sett.hijriOffset,
+          sett.prayerSoundSettings,
+        )
+      }
+    }, 500)
+  }, []) // Empty dependency array is correct since all values are passed as parameters
+
   useEffect(() => {
+    // Only calculate if we have location
     if (!location) {
+      console.log("[v0] No location yet, waiting...")
       setLoading(true)
       return
     }
@@ -268,48 +167,123 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
     const liveTimezone = -new Date().getTimezoneOffset() / 60
 
     try {
+      console.log("[v0] Calculating prayer times for:", location)
+      console.log("[v0] Using settings:", {
+        method: settings.method,
+        asrShadow: settings.asrShadow,
+        hijriOffset: settings.hijriOffset,
+      })
+
+      const methodMap: Record<number, CalcMethod> = {
+        0: CalcMethod.Karachi,
+        1: CalcMethod.MWL,
+        2: CalcMethod.Egypt,
+        3: CalcMethod.UmmAlQura,
+      }
+
+      let calcMethod: CalcMethod
+      if (typeof settings.method === "number") {
+        calcMethod = methodMap[settings.method] || CalcMethod.Karachi
+      } else {
+        // If somehow a string got saved, use it directly
+        calcMethod = settings.method as CalcMethod
+      }
+
+      console.log("[v0] Mapped method from", settings.method, "to", calcMethod)
+
       const calculated = calculatePrayerTimes(
         location.lat,
         location.lng,
         liveTimezone,
         new Date(),
-        method,
-        asrShadow,
+        calcMethod,
+        settings.asrShadow,
         undefined,
         undefined,
-        hijriOffset,
+        settings.hijriOffset,
       )
 
-      setTimes(calculated)
+      console.log("[v0] Calculated times:", calculated)
 
-      // 🔹 Schedule notifications whenever times are calculated/location changes
-      schedulePrayerNotifications(location.lat, location.lng, liveTimezone, method, asrShadow, hijriOffset)
+      if (calculated && typeof calculated === "object" && "fajr" in calculated && "sunrise" in calculated) {
+        setTimes(calculated)
+        setLoading(false)
+        console.log("[v0] Prayer times set successfully")
+        scheduleNotificationsDebounced(location, settings)
+      } else {
+        console.error("[v0] Invalid prayer times object:", calculated)
+        setLoading(false)
+      }
     } catch (error) {
-      console.error("Calculation Error:", error)
-    } finally {
+      console.error("[v0] Calculation Error:", error)
       setLoading(false)
     }
-  }, [location, method, asrShadow, hijriOffset])
+  }, [location, settings, scheduleNotificationsDebounced]) // Use entire settings object instead of specific properties
 
-  /* --------------------------------------------------
-     4. DERIVED VALUES
-     -------------------------------------------------- */
-  const t = translations[lang]
-  const hijri = getHijriDate(currentTime, hijriOffset)
+  const refreshLocation = useCallback(async () => {
+    if (isRefreshing) return
+    setIsRefreshing(true)
+    setGpsError(null)
+    setLoading(true)
+
+    console.log("[v0] Requesting GPS position...")
+
+    const gpsTimeout = setTimeout(() => {
+      console.warn("[v0] GPS request timed out after 30 seconds")
+      setIsRefreshing(false)
+      setLoading(false)
+      setGpsError("GPS timeout. Waiting for location...")
+    }, 30000)
+
+    try {
+      const pos = await Geolocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 25000,
+      })
+
+      clearTimeout(gpsTimeout)
+
+      const loc = {
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude,
+        timezone: -new Date().getTimezoneOffset() / 60,
+      }
+
+      console.log("[v0] GPS position acquired:", loc)
+      setLocation(loc)
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem("last_location", JSON.stringify(loc))
+      }
+
+      setGpsError(null)
+      setIsRefreshing(false)
+      setLoading(false)
+    } catch (err: any) {
+      clearTimeout(gpsTimeout)
+
+      console.error("[v0] GPS Error:", err?.message || err)
+      setGpsError("GPS error: " + (err?.message || "Unable to get location"))
+      setIsRefreshing(false)
+      setLoading(false)
+    }
+  }, [isRefreshing])
+
+  const t = translations[settings.language]
+  const hijri = getHijriDate(currentTime, settings.hijriOffset)
   const event = hijri ? getIslamicEvent(hijri.day, hijri.month) : null
 
   const prayers = [
-    { name: t.fajr, time: times?.fajr },
-    { name: t.sunrise, time: times?.sunrise, secondary: true },
-    { name: t.zawal, time: times?.zawal },
-    { name: t.asr, time: times?.asr, isAsr: true },
-    { name: t.maghrib, time: times?.maghrib },
-    { name: t.isha, time: times?.isha },
+    { name: t.fajr, time: times?.fajr || "--:--", secondary: false },
+    { name: t.sunrise, time: times?.sunrise || "--:--", secondary: true },
+    { name: t.zawal, time: times?.zawal || "--:--", secondary: false },
+    { name: t.asr, time: times?.asr || "--:--", isAsr: true },
+    { name: t.maghrib, time: times?.maghrib || "--:--", secondary: false },
+    { name: t.isha, time: times?.isha || "--:--", secondary: false },
   ]
 
   return (
     <main className="min-h-screen bg-background text-foreground flex flex-col font-sans selection:bg-primary selection:text-white relative">
-      {/* 🔹 Added Qibla floating action button */}
       <Link
         href="/qibla"
         className="fixed bottom-12 right-6 z-50 w-14 h-14 bg-background border border-primary/20 flex items-center justify-center shadow-xl hover:bg-primary hover:text-white transition-all group active:scale-95"
@@ -326,6 +300,39 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
               <p className="text-xs md:text-sm leading-relaxed text-muted-foreground tracking-wide mb-8">
                 {t.noti_message}
               </p>
+              <div className="mb-8 space-y-4 border-t border-primary/10 pt-6">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Prayer Sounds</p>
+                <div className="space-y-3">
+                  {["fajr", "dhuhr", "asr", "maghrib", "isha"].map((prayer) => (
+                    <div key={prayer} className="flex items-center justify-between">
+                      <label className="text-xs capitalize font-medium text-foreground">{prayer}</label>
+                      <button
+                        onClick={() => {
+                          const newSounds = {
+                            ...settings.prayerSoundSettings,
+                            [prayer]:
+                              !settings.prayerSoundSettings[prayer as keyof typeof settings.prayerSoundSettings],
+                          }
+                          updateSettings({ prayerSoundSettings: newSounds })
+                        }}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                          settings.prayerSoundSettings[prayer as keyof typeof settings.prayerSoundSettings]
+                            ? "bg-primary"
+                            : "bg-muted"
+                        }`}
+                      >
+                        <span
+                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                            settings.prayerSoundSettings[prayer as keyof typeof settings.prayerSoundSettings]
+                              ? "translate-x-6"
+                              : "translate-x-1"
+                          }`}
+                        />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
               <button
                 onClick={() => setShowNoti(false)}
                 className="w-full py-4 border border-primary/20 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-primary hover:text-white transition-all duration-500"
@@ -368,7 +375,7 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
               )}
               <h1
                 className={`font-serif italic leading-[1.1] tracking-tighter text-foreground ${
-                  lang === "my" ? "text-2xl md:text-5xl" : "text-4xl md:text-7xl"
+                  settings.language === "my" ? "text-2xl md:text-5xl" : "text-4xl md:text-7xl"
                 }`}
               >
                 {isRegional ? initialCity.name : t.schedule}
@@ -421,12 +428,12 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
             </div>
 
             <button
-              onClick={() => setLang(lang === "en" ? "my" : "en")}
+              onClick={() => updateSettings({ language: settings.language === "en" ? "my" : "en" })}
               className="group flex items-center gap-2 md:gap-3 px-3 md:px-6 py-2 border border-foreground/10 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-foreground hover:text-background transition-all duration-500 bg-background"
             >
               <Languages size={12} className="group-hover:rotate-180 transition-transform duration-700" />
-              <span className="hidden xs:inline">{lang === "en" ? "Burmese" : "English"}</span>
-              <span className="xs:hidden">{lang === "en" ? "MY" : "EN"}</span>
+              <span className="hidden xs:inline">{settings.language === "en" ? "Burmese" : "English"}</span>
+              <span className="xs:hidden">{settings.language === "en" ? "MY" : "EN"}</span>
             </button>
           </div>
 
@@ -442,7 +449,7 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
               </div>
               <div className="flex flex-col gap-2">
                 <div className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-muted-foreground font-bold">
-                  {currentTime.toLocaleDateString(lang === "en" ? "en-GB" : "my-MM", {
+                  {currentTime.toLocaleDateString(settings.language === "en" ? "en-GB" : "my-MM", {
                     weekday: "long",
                     day: "numeric",
                     month: "long",
@@ -471,9 +478,9 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
                 {[-1, 0, 1].map((offset) => (
                   <button
                     key={offset}
-                    onClick={() => setHijriOffset(offset)}
+                    onClick={() => updateSettings({ hijriOffset: offset })}
                     className={`px-3 py-1 border text-[9px] font-bold transition-all ${
-                      hijriOffset === offset
+                      settings.hijriOffset === offset
                         ? "bg-primary text-white border-primary"
                         : "border-foreground/10 text-muted-foreground hover:border-primary/50"
                     }`}
@@ -486,9 +493,12 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
           </div>
         </header>
 
-        {loading && !initialTimes ? (
-          <div className="flex-1 flex items-center justify-center">
-            <div className="w-12 h-12 border border-primary/20 border-t-primary rounded-full animate-spin" />
+        {!times && loading ? (
+          <div className="flex-1 flex flex-col items-center justify-center py-20">
+            <div className="w-12 h-12 border border-primary/20 border-t-primary rounded-full animate-spin mb-6" />
+            <span className="text-[10px] uppercase tracking-[0.4em] text-muted-foreground animate-pulse">
+              {gpsError ? gpsError : t.requesting}
+            </span>
           </div>
         ) : (
           <div className="flex flex-col">
@@ -510,15 +520,15 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
                   </span>
                   {prayer.isAsr && (
                     <button
-                      onClick={() => setAsrShadow(asrShadow === 2 ? 1 : 2)}
+                      onClick={() => updateSettings({ asrShadow: settings.asrShadow === 2 ? 1 : 2 })}
                       className="ml-4 px-3 py-1 border border-primary/30 text-[9px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-colors"
                     >
-                      {asrShadow === 2 ? "Hanafi" : "Shafi"}
+                      {settings.asrShadow === 2 ? "Hanafi" : "Shafi"}
                     </button>
                   )}
                 </div>
                 <span className="text-right text-3xl md:text-5xl font-light tabular-nums text-primary/80 group-hover:text-primary transition-colors duration-500">
-                  {prayer.time || "--:--"}
+                  {prayer.time}
                 </span>
               </div>
             ))}
@@ -527,9 +537,10 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
               <div className="mt-16 flex flex-col items-center gap-6">
                 <button
                   onClick={refreshLocation}
-                  className="px-10 py-4 border border-foreground/10 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-primary hover:text-white hover:border-primary transition-all duration-500 bg-transparent w-full md:w-auto"
+                  disabled={isRefreshing}
+                  className="px-10 py-4 border border-foreground/10 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-primary hover:text-white hover:border-primary transition-all duration-500 bg-transparent w-full md:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {t.refresh}
+                  {isRefreshing ? "Refreshing..." : t.refresh}
                 </button>
 
                 <button
@@ -552,7 +563,15 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
                 className="flex items-center gap-2 hover:text-primary transition-colors py-1 group"
               >
                 <span className="border-b border-primary/20 group-hover:border-primary pb-0.5">
-                  {t.method_names[method]}
+                  {
+                    t.method_names[
+                      typeof settings.method === "number"
+                        ? { 0: CalcMethod.Karachi, 1: CalcMethod.MWL, 2: CalcMethod.Egypt, 3: CalcMethod.UmmAlQura }[
+                            settings.method
+                          ] || CalcMethod.Karachi
+                        : (settings.method as CalcMethod)
+                    ]
+                  }
                 </span>
                 <ChevronDown
                   size={10}
@@ -567,15 +586,36 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
                       <button
                         key={m}
                         onClick={() => {
-                          setMethod(m)
+                          const methodToNumber = {
+                            [CalcMethod.Karachi]: 0,
+                            [CalcMethod.MWL]: 1,
+                            [CalcMethod.Egypt]: 2,
+                            [CalcMethod.UmmAlQura]: 3,
+                          }
+                          updateSettings({ method: methodToNumber[m] })
                           setShowMethodMenu(false)
                         }}
                         className={`px-6 py-4 text-left text-[10px] font-bold uppercase tracking-[0.2em] transition-all flex justify-between items-center ${
-                          method === m ? "text-primary bg-primary/5" : "hover:bg-primary hover:text-white"
+                          (
+                            typeof settings.method === "number"
+                              ? {
+                                  0: CalcMethod.Karachi,
+                                  1: CalcMethod.MWL,
+                                  2: CalcMethod.Egypt,
+                                  3: CalcMethod.UmmAlQura,
+                                }[settings.method] || CalcMethod.Karachi
+                              : settings.method
+                          ) === m
+                            ? "text-primary bg-primary/5"
+                            : "hover:bg-primary hover:text-white"
                         }`}
                       >
                         {t.method_names[m]}
-                        {method === m && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
+                        {(typeof settings.method === "number"
+                          ? { 0: CalcMethod.Karachi, 1: CalcMethod.MWL, 2: CalcMethod.Egypt, 3: CalcMethod.UmmAlQura }[
+                              settings.method
+                            ] || CalcMethod.Karachi
+                          : settings.method) === m && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
                       </button>
                     ))}
                   </div>
@@ -585,7 +625,7 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
           </div>
           <div className="flex flex-col gap-2 md:items-end">
             <span className="text-[8px] text-muted-foreground opacity-50">{t.rule}</span>
-            <span className="py-1">{asrShadow === 2 ? "Hanafi Rule" : "Shafi Rule"}</span>
+            <span className="py-1">{settings.asrShadow === 2 ? "Hanafi Rule" : "Shafi Rule"}</span>
           </div>
         </footer>
       </div>

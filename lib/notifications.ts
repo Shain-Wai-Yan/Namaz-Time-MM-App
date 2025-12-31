@@ -1,6 +1,13 @@
 import { LocalNotifications } from "@capacitor/local-notifications"
 import { calculatePrayerTimes, type CalcMethod } from "./solar-calc"
 
+/**
+ * Deterministic Notification Scheduler
+ * - No random IDs
+ * - No ghost alarms
+ * - Safe re-scheduling
+ */
+
 export async function schedulePrayerNotifications(
   lat: number,
   lng: number,
@@ -8,31 +15,70 @@ export async function schedulePrayerNotifications(
   method: CalcMethod,
   asrSchool: 1 | 2,
   hijriOffset: number,
+  userSoundSettings: Record<string, boolean> = {},
 ) {
   try {
-    // 1. Request permissions
+    /* ===============================
+       1. Permission
+    =============================== */
     const status = await LocalNotifications.requestPermissions()
     if (status.display !== "granted") return
 
-    // 2. Clear existing notifications to avoid duplicates
-    await LocalNotifications.cancel({
-      notifications: (await LocalNotifications.getPending()).notifications,
-    })
+    /* ===============================
+       2. Clear existing notifications
+       (prevents ghost alarms)
+    =============================== */
+    const pending = await LocalNotifications.getPending()
+    if (pending.notifications.length > 0) {
+      await LocalNotifications.cancel({ notifications: pending.notifications })
+    }
 
-    const notifications = []
+    const notifications: any[] = []
     const now = new Date()
 
-    // 3. Schedule for next 7 days
-    for (let i = 0; i < 7; i++) {
+    /* ===============================
+       Deterministic ID blocks
+    =============================== */
+    const prayerBaseIds: Record<string, number> = {
+      fajr: 1000,
+      dhuhr: 2000,
+      asr: 3000,
+      maghrib: 4000,
+      isha: 5000,
+    }
+
+    const prayerNames = ["fajr", "dhuhr", "asr", "maghrib", "isha"] as const
+
+    /* ===============================
+       3. Schedule next 7 days
+    =============================== */
+    for (let offset = 0; offset < 7; offset++) {
       const date = new Date()
-      date.setDate(now.getDate() + i)
+      date.setDate(now.getDate() + offset)
 
-      const times = calculatePrayerTimes(lat, lng, timezone, date, method, asrSchool, undefined, undefined, hijriOffset)
+      // Stable day index (YYYYMMDD → last 3 digits)
+      const dayIndex =
+        (date.getFullYear() * 10000 +
+          (date.getMonth() + 1) * 100 +
+          date.getDate()) %
+        1000
 
-      const prayerNames = ["fajr", "asr", "maghrib", "isha"] as const
+      const times = calculatePrayerTimes(
+        lat,
+        lng,
+        timezone,
+        date,
+        method,
+        asrSchool,
+        undefined,
+        undefined,
+        hijriOffset,
+      )
 
       for (const prayer of prayerNames) {
         const timeStr = times[prayer]
+        if (!timeStr) continue
+
         const [time, modifier] = timeStr.split(" ")
         let [hours, minutes] = time.split(":").map(Number)
 
@@ -42,43 +88,63 @@ export async function schedulePrayerNotifications(
         const scheduleDate = new Date(date)
         scheduleDate.setHours(hours, minutes, 0, 0)
 
-        // Only schedule if the time is in the future
-        if (scheduleDate > now) {
-          notifications.push({
-            title: `${prayer.charAt(0).toUpperCase() + prayer.slice(1)} Prayer`,
-            body: `It's time for ${prayer} prayer.`,
-            id: Math.floor(Math.random() * 1000000),
-            schedule: { at: scheduleDate },
-            sound: "azan.wav", // Users can configure this in system settings via channels if needed
-            smallIcon: "ic_launcher_foreground",
-            channelId: "prayer_times",
-          })
-        }
+        if (scheduleDate <= now) continue
+
+        const hasSound = userSoundSettings[prayer] === true
+
+        // 🔒 DETERMINISTIC, COLLISION-SAFE ID
+        // Example: Fajr (1000) + DayIndex (e.g. 742) → 1742
+        const notificationId = prayerBaseIds[prayer] + dayIndex
+
+        notifications.push({
+          id: notificationId,
+          title: `${prayer.charAt(0).toUpperCase() + prayer.slice(1)} Prayer`,
+          body: `It's time for ${prayer} prayer.`,
+          schedule: { at: scheduleDate },
+          sound: hasSound ? "adhan.mp3" : null,
+          channelId: hasSound ? "adhan_channel" : "silent_channel",
+          smallIcon: "ic_launcher_foreground",
+        })
       }
     }
 
+    /* ===============================
+       4. Schedule
+    =============================== */
     if (notifications.length > 0) {
-      // Split into chunks if there are many (Capacitor limit is usually high but good practice)
       await LocalNotifications.schedule({ notifications })
-      console.log(`[v0] Scheduled ${notifications.length} notifications`)
+      console.log(`[Notifications] Synced ${notifications.length} prayers`)
     }
   } catch (error) {
-    console.error("[v0] Error scheduling notifications:", error)
+    console.error("[Notifications] Scheduling error:", error)
   }
 }
 
-// Create the notification channel for Android (Huawei/Samsung support)
+/* ===============================
+   Channels
+=============================== */
+
 export async function createNotificationChannels() {
   try {
     await LocalNotifications.createChannel({
-      id: "prayer_times",
-      name: "Prayer Notifications",
-      description: "Notifications for daily prayer times",
+      id: "adhan_channel",
+      name: "Adhan Alarms",
+      description: "Prayers with full audio Adhan",
       importance: 5,
+      sound: "adhan.mp3",
       visibility: 1,
       vibration: true,
     })
+
+    await LocalNotifications.createChannel({
+      id: "silent_channel",
+      name: "Silent Alerts",
+      description: "Prayers with text only",
+      importance: 3,
+      visibility: 1,
+      vibration: false,
+    })
   } catch (error) {
-    console.error("[v0] Error creating notification channel:", error)
+    console.error("[Notifications] Channel error:", error)
   }
 }

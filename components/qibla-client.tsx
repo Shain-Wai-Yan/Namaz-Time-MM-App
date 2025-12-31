@@ -1,10 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { ArrowLeft, Compass } from "lucide-react"
 import Link from "next/link"
 import { Geolocation } from "@capacitor/geolocation"
-import { Motion } from "@capacitor/motion"
 
 /**
  * Keep this function exactly as you had it.
@@ -28,6 +27,7 @@ export default function QiblaClient() {
   const [qiblaAngle, setQiblaAngle] = useState<number | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [isSupported, setIsSupported] = useState(true)
+  const animationFrameRef = useRef<number>()
 
   useEffect(() => {
     let removeListener: (() => void) | null = null
@@ -41,6 +41,8 @@ export default function QiblaClient() {
         })
         const angle = getQiblaDegrees(pos.coords.latitude, pos.coords.longitude)
         setQiblaAngle(angle)
+        console.log("[v0] User location:", pos.coords.latitude, pos.coords.longitude)
+        console.log("[v0] Qibla angle to Makkah:", angle)
 
         // 2. Setup Motion Sensors
         // Check for permission (iOS 13+)
@@ -55,19 +57,44 @@ export default function QiblaClient() {
           }
         }
 
-        const listener = await Motion.addListener("orientation", (event) => {
-          // event.alpha is the compass heading (0 = North)
-          const alpha = (event as any).alpha
-          if (typeof alpha === "number") {
+        const listener = () => {
+          window.addEventListener("deviceorientationabsolute", handleOrientation as any, true)
+          window.addEventListener("deviceorientation", handleOrientation as any, true)
+        }
+
+        const handleOrientation = (event: DeviceOrientationEvent) => {
+          let headingValue = 0
+
+          if ((event as any).webkitCompassHeading !== undefined) {
+            // iOS provides true north heading directly
+            headingValue = (event as any).webkitCompassHeading
+            console.log("[v0] iOS webkitCompassHeading:", headingValue)
+          } else if ((event as any).absolute === true || event.alpha !== null) {
+            // Android's alpha is counter-clockwise from device initialization
+            // Convert to clockwise for proper compass behavior
+            headingValue = 360 - (event.alpha || 0)
+            console.log(
+              "[v0] Android alpha:",
+              event.alpha,
+              "→ converted:",
+              headingValue,
+              "absolute:",
+              (event as any).absolute,
+            )
+          }
+
+          if (typeof headingValue === "number") {
             // Normalize to 0-360
-            const normalized = (alpha + 360) % 360
+            const normalized = (headingValue + 360) % 360
             setHeading(normalized)
           }
-        })
+        }
+
+        listener()
 
         removeListener = () => {
-          console.log("[v0] Cleaning up Motion sensor...")
-          listener.remove()
+          window.removeEventListener("deviceorientationabsolute", handleOrientation as any, true)
+          window.removeEventListener("deviceorientation", handleOrientation as any, true)
         }
       } catch (err) {
         console.error("[v0] Qibla Error:", err)
@@ -84,20 +111,40 @@ export default function QiblaClient() {
   }, [])
 
   useEffect(() => {
-    const step = ((heading - smoothedHeading + 540) % 360) - 180
-    if (Math.abs(step) > 0.1) {
-      const timer = setTimeout(() => {
+    const animate = () => {
+      const step = ((heading - smoothedHeading + 540) % 360) - 180
+      if (Math.abs(step) > 0.1) {
         setSmoothedHeading((prev) => (prev + step * 0.2 + 360) % 360)
-      }, 16)
-      return () => clearTimeout(timer)
+        animationFrameRef.current = requestAnimationFrame(animate)
+      }
+    }
+
+    animationFrameRef.current = requestAnimationFrame(animate)
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current)
+      }
     }
   }, [heading, smoothedHeading])
 
-  // The arrow must point to (QiblaAngle - PhoneHeading)
   const finalRotation = qiblaAngle !== null ? (qiblaAngle - smoothedHeading + 360) % 360 : 0
-  // Check if aligned within 3 degrees for the glow effect
-  const diff = qiblaAngle !== null ? Math.abs(((finalRotation + 180) % 360) - 180) : 999
-  const isAligned = qiblaAngle !== null && diff < 3
+
+  useEffect(() => {
+    if (qiblaAngle !== null) {
+      console.log(
+        "[v0] Qibla:",
+        Math.round(qiblaAngle),
+        "Device:",
+        Math.round(smoothedHeading),
+        "Arrow rotation:",
+        Math.round(finalRotation),
+      )
+    }
+  }, [qiblaAngle, smoothedHeading, finalRotation])
+
+  const diff = Math.min(finalRotation, 360 - finalRotation)
+  const isAligned = qiblaAngle !== null && diff < 5
 
   return (
     <main className="min-h-screen bg-background text-foreground flex flex-col p-6 md:p-16 lg:p-24 relative overflow-hidden">
@@ -259,28 +306,31 @@ export default function QiblaClient() {
                   )
                 })}
 
-               {/* rotating needle group (rotated by finalRotation) */}
-<g transform={`rotate(${finalRotation} 180 180)`}>
-  <g filter={isAligned ? "url(#glow)" : ""}>
-    {/* The Green Triangle Arrow */}
-    <path
-      d="M180 40 L195 170 L180 160 L165 170 Z"
-      fill={isAligned ? "#22c55e" : "#166534"} // Bright green when aligned, dark green when seeking
-      stroke={isAligned ? "#15803d" : "transparent"}
-      strokeWidth="1"
-      className="transition-colors duration-300"
-    />
-    
-    {/* The Tail (Subtle contrast) */}
-    <path 
-      d="M180 320 L175 190 L180 198 L185 190 Z" 
-      fill="rgba(0,0,0,0.1)" 
-    />
-  </g>
+                <g transform={`rotate(${finalRotation} 180 180)`}>
+                  <g filter={isAligned ? "url(#glow)" : ""}>
+                    {/* Main Pointer - The "Top" triangle (pointing towards Makkah) */}
+                    <path
+                      d="M180 30 L198 180 L180 170 L162 180 Z"
+                      fill={isAligned ? "#22c55e" : "#166534"}
+                      stroke={isAligned ? "#15803d" : "transparent"}
+                      strokeWidth="1"
+                      className="transition-colors duration-300"
+                    />
 
-  {/* Center Pivot Point */}
-  <circle cx="180" cy="180" r="5" fill={isAligned ? "#22c55e" : "#3f3f46"} />
-</g>
+                    {/* The Bottom/Tail - Subtle indicator of the opposite direction */}
+                    <path d="M180 330 L170 190 L180 195 L190 190 Z" fill="rgba(0,0,0,0.05)" />
+                  </g>
+
+                  {/* Center Pivot Point */}
+                  <circle
+                    cx="180"
+                    cy="180"
+                    r="6"
+                    fill={isAligned ? "#22c55e" : "#3f3f46"}
+                    stroke="white"
+                    strokeWidth="2"
+                  />
+                </g>
               </svg>
 
               {/* Center pivot - visible overlay */}
@@ -293,6 +343,9 @@ export default function QiblaClient() {
           <div className="space-y-3">
             <p className="text-[10px] uppercase tracking-[0.4em] text-muted-foreground font-bold leading-relaxed">
               Align the Green arrow indicator with the top of your device
+            </p>
+            <p className="text-[9px] text-muted-foreground/60 leading-relaxed">
+              Tip: Move your phone in a figure-8 pattern to calibrate the compass
             </p>
             <div className="h-[1px] w-12 bg-primary/20 mx-auto" />
           </div>

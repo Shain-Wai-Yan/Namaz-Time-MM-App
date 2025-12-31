@@ -1,13 +1,11 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { ArrowLeft, Compass } from "lucide-react"
+import { ArrowLeft, CompassIcon } from "lucide-react"
 import Link from "next/link"
 import { Geolocation } from "@capacitor/geolocation"
+import Compass from "@/lib/compass-plugin"
 
-/**
- * Keep this function exactly as you had it.
- */
 function getQiblaDegrees(userLat: number, userLng: number) {
   const kaabaLat = (21.4225 * Math.PI) / 180
   const kaabaLng = (39.8262 * Math.PI) / 180
@@ -27,78 +25,81 @@ export default function QiblaClient() {
   const [qiblaAngle, setQiblaAngle] = useState<number | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [isSupported, setIsSupported] = useState(true)
+  const [sensorAccuracy, setSensorAccuracy] = useState<number>(-1)
+  const [usingNativeSensor, setUsingNativeSensor] = useState(false)
   const animationFrameRef = useRef<number>()
+  const handleOrientationRef = useRef<((event: DeviceOrientationEvent) => void) | null>(null)
 
   useEffect(() => {
-    let removeListener: (() => void) | null = null
-
     const startTracking = async () => {
       try {
-        // 1. Get GPS for Qibla Angle
         const pos = await Geolocation.getCurrentPosition({
           enableHighAccuracy: true,
           timeout: 10000,
         })
         const angle = getQiblaDegrees(pos.coords.latitude, pos.coords.longitude)
         setQiblaAngle(angle)
-        console.log("[v0] User location:", pos.coords.latitude, pos.coords.longitude)
-        console.log("[v0] Qibla angle to Makkah:", angle)
 
-        // 2. Setup Motion Sensors
-        // Check for permission (iOS 13+)
-        if (
-          typeof DeviceOrientationEvent !== "undefined" &&
-          typeof (DeviceOrientationEvent as any).requestPermission === "function"
-        ) {
-          const permission = await (DeviceOrientationEvent as any).requestPermission()
-          if (permission !== "granted") {
-            setError("Sensor permission denied")
-            return
+        let nativeWorking = false
+        try {
+          await Compass.startWatching()
+
+          await Compass.addListener("headingChanged", (data) => {
+            if (data.accuracy === 0) return
+
+            setHeading(data.heading)
+            setSensorAccuracy(data.accuracy)
+            setUsingNativeSensor(true)
+            nativeWorking = true
+          })
+
+          await new Promise((resolve) => setTimeout(resolve, 1000))
+
+          if (!nativeWorking) {
+            throw new Error("Native sensor timeout")
           }
-        }
+        } catch (nativeError) {
+          setUsingNativeSensor(false)
 
-        const listener = () => {
-          window.addEventListener("deviceorientationabsolute", handleOrientation as any, true)
-          window.addEventListener("deviceorientation", handleOrientation as any, true)
-        }
+          const handleOrientation = (event: DeviceOrientationEvent) => {
+            const webkitHeading = (event as any).webkitCompassHeading
+            const alpha = event.alpha
 
-        const handleOrientation = (event: DeviceOrientationEvent) => {
-          let headingValue = 0
+            let compassHeading = 0
 
-          if ((event as any).webkitCompassHeading !== undefined) {
-            // iOS provides true north heading directly
-            headingValue = (event as any).webkitCompassHeading
-            console.log("[v0] iOS webkitCompassHeading:", headingValue)
-          } else if ((event as any).absolute === true || event.alpha !== null) {
-            // Android's alpha is counter-clockwise from device initialization
-            // Convert to clockwise for proper compass behavior
-            headingValue = 360 - (event.alpha || 0)
-            console.log(
-              "[v0] Android alpha:",
-              event.alpha,
-              "→ converted:",
-              headingValue,
-              "absolute:",
-              (event as any).absolute,
-            )
+            if (webkitHeading !== undefined && webkitHeading !== null) {
+              compassHeading = webkitHeading
+            } else if (alpha !== null) {
+              compassHeading = 360 - alpha
+            }
+
+            setHeading(compassHeading)
+            setSensorAccuracy(2)
           }
 
-          if (typeof headingValue === "number") {
-            // Normalize to 0-360
-            const normalized = (headingValue + 360) % 360
-            setHeading(normalized)
+          handleOrientationRef.current = handleOrientation
+
+          if (typeof (DeviceOrientationEvent as any).requestPermission === "function") {
+            try {
+              const permission = await (DeviceOrientationEvent as any).requestPermission()
+              if (permission === "granted") {
+                window.addEventListener("deviceorientationabsolute", handleOrientation, true)
+              } else {
+                throw new Error("Permission denied")
+              }
+            } catch (permError) {
+              throw new Error("Motion permission required")
+            }
+          } else {
+            if ("ondeviceorientationabsolute" in window) {
+              window.addEventListener("deviceorientationabsolute", handleOrientation, true)
+            } else {
+              window.addEventListener("deviceorientation", handleOrientation, true)
+            }
           }
-        }
-
-        listener()
-
-        removeListener = () => {
-          window.removeEventListener("deviceorientationabsolute", handleOrientation as any, true)
-          window.removeEventListener("deviceorientation", handleOrientation as any, true)
         }
       } catch (err) {
-        console.error("[v0] Qibla Error:", err)
-        setError("Please enable Location and Compass access")
+        setError("Please enable Location and Compass access in your device settings")
         setIsSupported(false)
       }
     }
@@ -106,15 +107,40 @@ export default function QiblaClient() {
     startTracking()
 
     return () => {
-      if (removeListener) removeListener()
+      try {
+        Compass.stopWatching()
+        Compass.removeAllListeners()
+      } catch (e) {}
+
+      if (handleOrientationRef.current) {
+        window.removeEventListener("deviceorientationabsolute", handleOrientationRef.current, true)
+        window.removeEventListener("deviceorientation", handleOrientationRef.current, true)
+      }
     }
   }, [])
 
   useEffect(() => {
     const animate = () => {
       const step = ((heading - smoothedHeading + 540) % 360) - 180
+
+      if (Math.abs(step) < 0.5) {
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current)
+        }
+        return
+      }
+
+      if (sensorAccuracy >= 0 && sensorAccuracy < 2) {
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current)
+        }
+        return
+      }
+
+      const smoothingFactor = sensorAccuracy >= 2 ? 0.12 : 0.08
+
       if (Math.abs(step) > 0.1) {
-        setSmoothedHeading((prev) => (prev + step * 0.2 + 360) % 360)
+        setSmoothedHeading((prev) => (prev + step * smoothingFactor + 360) % 360)
         animationFrameRef.current = requestAnimationFrame(animate)
       }
     }
@@ -126,29 +152,17 @@ export default function QiblaClient() {
         cancelAnimationFrame(animationFrameRef.current)
       }
     }
-  }, [heading, smoothedHeading])
+  }, [heading, smoothedHeading, sensorAccuracy])
 
   const finalRotation = qiblaAngle !== null ? (qiblaAngle - smoothedHeading + 360) % 360 : 0
 
-  useEffect(() => {
-    if (qiblaAngle !== null) {
-      console.log(
-        "[v0] Qibla:",
-        Math.round(qiblaAngle),
-        "Device:",
-        Math.round(smoothedHeading),
-        "Arrow rotation:",
-        Math.round(finalRotation),
-      )
-    }
-  }, [qiblaAngle, smoothedHeading, finalRotation])
-
   const diff = Math.min(finalRotation, 360 - finalRotation)
-  const isAligned = qiblaAngle !== null && diff < 5
+  const isAligned = qiblaAngle !== null && diff < 15
+
+  const needsCalibration = sensorAccuracy >= 0 && sensorAccuracy < 2
 
   return (
     <main className="min-h-screen bg-background text-foreground flex flex-col p-6 md:p-16 lg:p-24 relative overflow-hidden">
-      {/* Background Subtle Gradient */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.02] rounded-full blur-[120px] -z-10" />
 
       <header className="mb-12 flex items-center justify-between border-b border-foreground/5 pb-12">
@@ -168,11 +182,11 @@ export default function QiblaClient() {
               className={`w-1.5 h-1.5 rounded-full ${isSupported ? "bg-primary" : "bg-destructive"} animate-pulse`}
             />
             <span className="text-[10px] uppercase tracking-[0.2em] font-medium">
-              {isSupported ? "Sensors Active" : "Sensor Error"}
+              {isSupported ? (usingNativeSensor ? "Native Sensors Active" : "Web API Active") : "Sensor Error"}
             </span>
           </div>
         </div>
-        <Compass size={40} className="text-primary/20" />
+        <CompassIcon size={40} className="text-primary/20" />
       </header>
 
       <div className="flex-1 flex flex-col items-center justify-center gap-12 md:gap-20">
@@ -183,18 +197,16 @@ export default function QiblaClient() {
           </div>
         ) : (
           <div className="relative group">
-            {/* Luxurious Outer Glow */}
             <div
               className={`absolute inset-[-40px] rounded-full transition-all duration-1000 ${
                 isAligned ? "bg-primary/10 blur-[60px] scale-110" : "bg-primary/[0.02] blur-[40px] scale-100"
               }`}
             />
 
-            {/* Compass Container (uses SVG for crisp UI and performance) */}
             <div className="w-72 h-72 md:w-[450px] md:h-[450px] rounded-full border border-primary/10 flex items-center justify-center relative bg-background shadow-[0_0_80px_rgba(0,0,0,0.05)] backdrop-blur-sm">
               <svg
                 viewBox="0 0 360 360"
-                className="w-[92%] h-[92%] transform transition-transform duration-150 ease-out pointer-events-none"
+                className="w-[92%] h-[92%] transform transition-transform duration-300 ease-out pointer-events-none"
                 role="img"
                 aria-label="Qibla compass"
               >
@@ -217,10 +229,8 @@ export default function QiblaClient() {
                   </filter>
                 </defs>
 
-                {/* outer circle */}
                 <circle cx="180" cy="180" r="160" stroke="rgba(0,0,0,0.05)" strokeWidth="2" fill="url(#g)" />
 
-                {/* ticks - every 5 degrees */}
                 {Array.from({ length: 72 }).map((_, i) => {
                   const angle = i * 5
                   const long = i % 6 === 0
@@ -245,7 +255,6 @@ export default function QiblaClient() {
                   )
                 })}
 
-                {/* cardinal labels */}
                 <text
                   x="180"
                   y="46"
@@ -287,7 +296,6 @@ export default function QiblaClient() {
                   W
                 </text>
 
-                {/* degree numbers every 30 */}
                 {Array.from({ length: 12 }).map((_, i) => {
                   const deg = i * 30
                   return (
@@ -308,7 +316,6 @@ export default function QiblaClient() {
 
                 <g transform={`rotate(${finalRotation} 180 180)`}>
                   <g filter={isAligned ? "url(#glow)" : ""}>
-                    {/* Main Pointer - The "Top" triangle (pointing towards Makkah) */}
                     <path
                       d="M180 30 L198 180 L180 170 L162 180 Z"
                       fill={isAligned ? "#22c55e" : "#166534"}
@@ -316,12 +323,8 @@ export default function QiblaClient() {
                       strokeWidth="1"
                       className="transition-colors duration-300"
                     />
-
-                    {/* The Bottom/Tail - Subtle indicator of the opposite direction */}
                     <path d="M180 330 L170 190 L180 195 L190 190 Z" fill="rgba(0,0,0,0.05)" />
                   </g>
-
-                  {/* Center Pivot Point */}
                   <circle
                     cx="180"
                     cy="180"
@@ -332,8 +335,6 @@ export default function QiblaClient() {
                   />
                 </g>
               </svg>
-
-              {/* Center pivot - visible overlay */}
               <div className="absolute w-3 h-3 rounded-full bg-primary/20 backdrop-blur-md border border-primary/30 z-10" />
             </div>
           </div>
@@ -344,9 +345,20 @@ export default function QiblaClient() {
             <p className="text-[10px] uppercase tracking-[0.4em] text-muted-foreground font-bold leading-relaxed">
               Align the Green arrow indicator with the top of your device
             </p>
-            <p className="text-[9px] text-muted-foreground/60 leading-relaxed">
-              Tip: Move your phone in a figure-8 pattern to calibrate the compass
-            </p>
+            {needsCalibration && (
+              <p className="text-[9px] text-amber-600 font-semibold leading-relaxed animate-pulse">
+                {usingNativeSensor
+                  ? "⚠ Low accuracy - Move your phone in a figure-8 pattern to calibrate"
+                  : "⚠ Using standard compass - may be less accurate"}
+              </p>
+            )}
+            {!needsCalibration && (
+              <p className="text-[9px] text-muted-foreground/60 leading-relaxed">
+                {usingNativeSensor
+                  ? "Using native sensor fusion for accurate readings"
+                  : "Using device orientation sensors"}
+              </p>
+            )}
             <div className="h-[1px] w-12 bg-primary/20 mx-auto" />
           </div>
 

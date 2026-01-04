@@ -97,14 +97,13 @@ export function loadSettings(): UserSettings {
     return {
       ...DEFAULT_SETTINGS,
       ...parsed,
-      method, // Override with normalized number value
+      method,
       prayerSoundSettings: {
         ...DEFAULT_SETTINGS.prayerSoundSettings,
         ...parsed.prayerSoundSettings,
       },
     }
-  } catch (err) {
-    console.error("[storage] Failed to load settings:", err)
+  } catch {
     return DEFAULT_SETTINGS
   }
 }
@@ -124,8 +123,8 @@ export function saveSettings(settings: UserSettings): boolean {
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave))
     return true
-  } catch (err) {
-    console.error("[storage] Failed to save settings:", err)
+  } catch (error) {
+    console.error("Critical: Settings save failed", error)
     return false
   }
 }

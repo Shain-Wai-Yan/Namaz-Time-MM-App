@@ -21,23 +21,12 @@ export async function schedulePrayerNotifications(
   hijriOffset: number,
   userSoundSettings: Record<string, boolean> = {},
 ) {
-  console.log("[v0] ===== schedulePrayerNotifications CALLED =====")
-  console.log("[v0] Platform:", Capacitor.getPlatform())
-  console.log("[v0] Parameters:", { lat, lng, timezone, method, asrSchool, hijriOffset, userSoundSettings })
-
   try {
     if (Capacitor.getPlatform() === "android") {
-      console.log("[v0] [Notifications] Using native Android AlarmManager")
-
       const result = await scheduleNativeAlarms(lat, lng, timezone, method, asrSchool, hijriOffset, userSoundSettings)
 
-      console.log("[v0] Native alarm result:", result)
-
       if (!result.success) {
-        console.error("[v0] [Notifications] Native alarm scheduling failed:", result.error)
-
         if (result.error === "PERMISSION_REQUIRED") {
-          // Return error to UI so user can be prompted
           return {
             success: false,
             error: "PERMISSION_REQUIRED",
@@ -49,21 +38,10 @@ export async function schedulePrayerNotifications(
       return result
     }
 
-    console.log("[v0] [Notifications] Using Capacitor LocalNotifications (not Android)")
-
     // Fall back to Capacitor LocalNotifications for iOS/Web
-    console.log("[Notifications] Using Capacitor LocalNotifications")
-
-    /* ===============================
-       1. Permission
-    =============================== */
     const status = await LocalNotifications.requestPermissions()
     if (status.display !== "granted") return
 
-    /* ===============================
-       2. Clear existing notifications
-       (prevents ghost alarms)
-    =============================== */
     const pending = await LocalNotifications.getPending()
     if (pending.notifications.length > 0) {
       await LocalNotifications.cancel({ notifications: pending.notifications })
@@ -72,9 +50,6 @@ export async function schedulePrayerNotifications(
     const notifications: any[] = []
     const now = new Date()
 
-    /* ===============================
-       Deterministic ID blocks
-    =============================== */
     const prayerBaseIds: Record<string, number> = {
       fajr: 1000,
       dhuhr: 2000,
@@ -85,14 +60,10 @@ export async function schedulePrayerNotifications(
 
     const prayerNames = ["fajr", "dhuhr", "asr", "maghrib", "isha"] as const
 
-    /* ===============================
-       3. Schedule next 7 days
-    =============================== */
     for (let offset = 0; offset < 7; offset++) {
       const date = new Date()
       date.setDate(now.getDate() + offset)
 
-      // Stable day index (YYYYMMDD → last 3 digits)
       const dayIndex = (date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate()) % 1000
 
       const times = calculatePrayerTimes(lat, lng, timezone, date, method, asrSchool, undefined, undefined, hijriOffset)
@@ -114,8 +85,6 @@ export async function schedulePrayerNotifications(
 
         const hasSound = userSoundSettings[prayer] === true
 
-        // 🔒 DETERMINISTIC, COLLISION-SAFE ID
-        // Example: Fajr (1000) + DayIndex (e.g. 742) → 1742
         const notificationId = prayerBaseIds[prayer] + dayIndex
 
         notifications.push({
@@ -130,24 +99,15 @@ export async function schedulePrayerNotifications(
       }
     }
 
-    /* ===============================
-       4. Schedule
-    =============================== */
     if (notifications.length > 0) {
       await LocalNotifications.schedule({ notifications })
-      console.log(`[Notifications] Synced ${notifications.length} prayers`)
     }
 
     return { success: true, count: notifications.length }
   } catch (error) {
-    console.error("[v0] [Notifications] Scheduling error:", error)
     return { success: false, error }
   }
 }
-
-/* ===============================
-   Channels
-=============================== */
 
 export async function createNotificationChannels() {
   try {
@@ -170,7 +130,7 @@ export async function createNotificationChannels() {
       vibration: false,
     })
   } catch (error) {
-    console.error("[Notifications] Channel error:", error)
+    console.error("Notification channel creation failed:", error)
   }
 }
 

@@ -1,26 +1,26 @@
 -- Merging decision tree log ---
 provider#androidx.core.content.FileProvider
-INJECTED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:79:9-85:20
+INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:79:9-85:20
 	android:grantUriPermissions
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:83:13-47
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:83:13-47
 	android:authorities
-		INJECTED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:81:13-64
+		INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:81:13-64
 	android:exported
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:82:13-37
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:82:13-37
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:80:13-62
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:80:13-62
 manifest
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:2:1-89:12
-INJECTED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:2:1-89:12
-INJECTED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:2:1-89:12
-INJECTED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:2:1-89:12
-MERGED from [:capacitor-geolocation] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/geolocation/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
-MERGED from [:capacitor-haptics] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/haptics/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-9:12
-MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-26:12
-MERGED from [:capacitor-splash-screen] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/splash-screen/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
-MERGED from [:capacitor-android] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/android/capacitor/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
-MERGED from [:capacitor-cordova-android-plugins] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/capacitor-cordova-android-plugins/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-11:12
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:2:1-89:12
+INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:2:1-89:12
+INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:2:1-89:12
+INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:2:1-89:12
+MERGED from [:capacitor-geolocation] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/geolocation/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
+MERGED from [:capacitor-haptics] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/haptics/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-9:12
+MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-26:12
+MERGED from [:capacitor-splash-screen] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/splash-screen/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
+MERGED from [:capacitor-android] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/android/capacitor/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
+MERGED from [:capacitor-cordova-android-plugins] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/capacitor-cordova-android-plugins/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/c7923bfdbcc8f62c24c2594feae8bc8a/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.appcompat:appcompat:1.6.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/f1b5ee8936ec4392875446840cd3251f/transformed/appcompat-1.6.1/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.2.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/bbea7aa39e3045f4133dc7bc13769ed1/transformed/coordinatorlayout-1.2.0/AndroidManifest.xml:17:1-24:12
@@ -64,88 +64,88 @@ MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/shainwaiyan/.gradle/c
 MERGED from [androidx.annotation:annotation-experimental:1.4.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/c8987a08fcd8445fa637509fcf20a792/transformed/annotation-experimental-1.4.0/AndroidManifest.xml:2:1-7:12
 MERGED from [org.apache.cordova:framework:10.1.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/442a905c182e3e23ecd24ac917df6463/transformed/framework-10.1.1/AndroidManifest.xml:20:1-27:12
 	package
-		INJECTED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:2:11-69
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:2:11-69
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:5:5-81
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:5:5-81
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:5:22-78
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:5:22-78
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:6:5-79
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:6:5-79
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:6:22-76
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:6:22-76
 uses-feature#android.hardware.location.gps
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:7:5-66
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:7:5-66
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:7:19-63
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:7:19-63
 uses-feature#android.hardware.sensor.accelerometer
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:8:5-98
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:8:5-98
 	android:required
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:8:72-95
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:8:72-95
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:8:19-71
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:8:19-71
 uses-feature#android.hardware.sensor.compass
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:9:5-92
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:9:5-92
 	android:required
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:9:66-89
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:9:66-89
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:9:19-65
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:9:19-65
 uses-permission#android.permission.WAKE_LOCK
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:11:5-68
-MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:8:5-68
-MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:8:5-68
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:11:5-68
+MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:8:5-68
+MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:8:5-68
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:11:22-65
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:11:22-65
 uses-permission#android.permission.VIBRATE
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:12:5-66
-MERGED from [:capacitor-haptics] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/haptics/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:7:5-66
-MERGED from [:capacitor-haptics] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/haptics/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:7:5-66
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:12:5-66
+MERGED from [:capacitor-haptics] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/haptics/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:7:5-66
+MERGED from [:capacitor-haptics] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/haptics/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:7:5-66
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:12:22-63
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:12:22-63
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:13:5-81
-MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:7:5-81
-MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:7:5-81
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:13:5-81
+MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:7:5-81
+MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:7:5-81
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:13:22-78
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:13:22-78
 uses-permission#android.permission.FOREGROUND_SERVICE
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:14:5-77
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:14:5-77
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:14:22-74
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:14:22-74
 uses-permission#android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:15:5-92
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:15:5-92
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:15:22-89
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:15:22-89
 uses-permission#android.permission.POST_NOTIFICATIONS
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:16:5-77
-MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:9:5-77
-MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:9:5-77
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:16:5-77
+MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:9:5-77
+MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:9:5-77
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:16:22-74
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:16:22-74
 uses-permission#android.permission.FOREGROUND_SERVICE_SPECIAL_USE
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:17:5-89
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:17:5-89
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:17:22-86
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:17:22-86
 uses-permission#android.permission.USE_EXACT_ALARM
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:19:5-74
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:19:5-74
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:19:22-71
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:19:22-71
 uses-permission#android.permission.USE_FULL_SCREEN_INTENT
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:21:5-81
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:21:5-81
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:21:22-78
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:21:22-78
 application
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:22:5-86:19
-INJECTED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:22:5-86:19
-MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:11:5-24:19
-MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:11:5-24:19
-MERGED from [:capacitor-cordova-android-plugins] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/capacitor-cordova-android-plugins/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:8:5-9:19
-MERGED from [:capacitor-cordova-android-plugins] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/capacitor-cordova-android-plugins/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:8:5-9:19
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:22:5-86:19
+INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:22:5-86:19
+MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:11:5-24:19
+MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:11:5-24:19
+MERGED from [:capacitor-cordova-android-plugins] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/capacitor-cordova-android-plugins/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:8:5-9:19
+MERGED from [:capacitor-cordova-android-plugins] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/capacitor-cordova-android-plugins/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:8:5-9:19
 MERGED from [com.google.android.gms:play-services-location:21.3.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/906e6260fee59d936ff015703cf66107/transformed/play-services-location-21.3.0/AndroidManifest.xml:6:5-20
 MERGED from [com.google.android.gms:play-services-location:21.3.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/906e6260fee59d936ff015703cf66107/transformed/play-services-location-21.3.0/AndroidManifest.xml:6:5-20
 MERGED from [com.google.android.gms:play-services-base:18.5.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/b2956c1370a1eb16e967482248592d09/transformed/play-services-base-18.5.0/AndroidManifest.xml:4:5-6:19
@@ -167,135 +167,135 @@ MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiya
 MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/f11aba824a433654f3d4e95bf6854332/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
 MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/f11aba824a433654f3d4e95bf6854332/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
 	android:extractNativeLibs
-		INJECTED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/df8106ed2c9a77a78a831c4846e774e7/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:27:9-35
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:27:9-35
 	android:label
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:25:9-41
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:25:9-41
 	android:roundIcon
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:26:9-54
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:26:9-54
 	android:icon
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:24:9-43
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:24:9-43
 	android:allowBackup
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:23:9-35
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:23:9-35
 	android:theme
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:28:9-40
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:28:9-40
 activity#com.xolbine.namaztimemm.MainActivity
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:29:9-40:20
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:29:9-40:20
 	android:label
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:32:13-56
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:32:13-56
 	android:launchMode
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:34:13-44
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:34:13-44
 	android:exported
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:35:13-36
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:35:13-36
 	android:configChanges
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:30:13-129
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:30:13-129
 	android:theme
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:33:13-62
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:33:13-62
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:31:13-41
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:31:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:36:13-39:29
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:36:13-39:29
 action#android.intent.action.MAIN
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:37:17-69
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:37:17-69
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:37:25-66
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:37:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:38:17-77
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:38:17-77
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:38:27-74
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:38:27-74
 activity#com.xolbine.namaztimemm.AlarmActivity
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:42:9-49:40
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:42:9-49:40
 	android:turnScreenOn
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:47:13-40
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:47:13-40
 	android:excludeFromRecents
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:48:13-46
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:48:13-46
 	android:showWhenLocked
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:46:13-42
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:46:13-42
 	android:launchMode
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:45:13-48
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:45:13-48
 	android:exported
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:49:13-37
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:49:13-37
 	android:theme
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:44:13-71
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:44:13-71
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:43:13-42
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:43:13-42
 receiver#com.xolbine.namaztimemm.AdhanAlarmReceiver
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:52:9-59:20
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:52:9-59:20
 	android:enabled
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:54:13-35
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:54:13-35
 	android:exported
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:55:13-37
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:55:13-37
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:53:13-47
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:53:13-47
 intent-filter#action:name:com.xolbine.namaztimemm.ADHAN_ALARM
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:56:13-58:29
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:56:13-58:29
 action#com.xolbine.namaztimemm.ADHAN_ALARM
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:57:17-78
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:57:17-78
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:57:25-75
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:57:25-75
 receiver#com.xolbine.namaztimemm.BootReceiver
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:61:9-72:20
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:61:9-72:20
 	android:enabled
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:63:13-35
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:63:13-35
 	android:exported
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:64:13-36
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:64:13-36
 	android:permission
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:65:13-75
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:65:13-75
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:62:13-41
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:62:13-41
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.MY_PACKAGE_REPLACED+action:name:android.intent.action.QUICKBOOT_POWERON
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:66:13-71:29
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:66:13-71:29
 action#android.intent.action.BOOT_COMPLETED
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:67:17-79
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:67:17-79
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:67:25-76
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:67:25-76
 action#android.intent.action.QUICKBOOT_POWERON
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:68:17-82
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:68:17-82
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:68:25-79
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:68:25-79
 action#android.intent.action.MY_PACKAGE_REPLACED
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:70:17-84
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:70:17-84
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:70:25-81
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:70:25-81
 service#com.xolbine.namaztimemm.AdhanPlayerService
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:74:9-78:61
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:74:9-78:61
 	android:enabled
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:76:13-35
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:76:13-35
 	android:exported
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:77:13-37
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:77:13-37
 	android:foregroundServiceType
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:78:13-58
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:78:13-58
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:75:13-47
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:75:13-47
 uses-permission#android.permission.INTERNET
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:88:5-67
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:88:5-67
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:88:22-64
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:88:22-64
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:84:13-112
+ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:84:13-112
 	android:resource
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:84:75-109
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:84:75-109
 	android:name
-		ADDED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml:84:24-74
+		ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:84:24-74
 uses-sdk
-INJECTED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml
-INJECTED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml
-MERGED from [:capacitor-geolocation] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/geolocation/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
-MERGED from [:capacitor-geolocation] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/geolocation/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
-MERGED from [:capacitor-haptics] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/haptics/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
-MERGED from [:capacitor-haptics] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/haptics/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
-MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
-MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
-MERGED from [:capacitor-splash-screen] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/splash-screen/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
-MERGED from [:capacitor-splash-screen] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/splash-screen/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
-MERGED from [:capacitor-android] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/android/capacitor/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
-MERGED from [:capacitor-android] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/android/capacitor/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
-MERGED from [:capacitor-cordova-android-plugins] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/capacitor-cordova-android-plugins/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:6:5-44
-MERGED from [:capacitor-cordova-android-plugins] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/capacitor-cordova-android-plugins/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:6:5-44
+INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml
+INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml
+MERGED from [:capacitor-geolocation] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/geolocation/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:capacitor-geolocation] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/geolocation/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:capacitor-haptics] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/haptics/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:capacitor-haptics] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/haptics/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:capacitor-splash-screen] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/splash-screen/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:capacitor-splash-screen] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/splash-screen/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:capacitor-android] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/android/capacitor/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:capacitor-android] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/android/capacitor/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:capacitor-cordova-android-plugins] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/capacitor-cordova-android-plugins/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:6:5-44
+MERGED from [:capacitor-cordova-android-plugins] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/capacitor-cordova-android-plugins/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:6:5-44
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/c7923bfdbcc8f62c24c2594feae8bc8a/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:20:5-44
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/c7923bfdbcc8f62c24c2594feae8bc8a/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:20:5-44
 MERGED from [androidx.appcompat:appcompat:1.6.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/f1b5ee8936ec4392875446840cd3251f/transformed/appcompat-1.6.1/AndroidManifest.xml:20:5-44
@@ -381,31 +381,31 @@ MERGED from [androidx.annotation:annotation-experimental:1.4.0] /Users/shainwaiy
 MERGED from [org.apache.cordova:framework:10.1.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/442a905c182e3e23ecd24ac917df6463/transformed/framework-10.1.1/AndroidManifest.xml:25:5-44
 MERGED from [org.apache.cordova:framework:10.1.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/442a905c182e3e23ecd24ac917df6463/transformed/framework-10.1.1/AndroidManifest.xml:25:5-44
 	android:targetSdkVersion
-		INJECTED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml
 receiver#com.capacitorjs.plugins.localnotifications.TimedNotificationPublisher
-ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:12:9-106
+ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:12:9-106
 	android:name
-		ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:12:19-103
+		ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:12:19-103
 receiver#com.capacitorjs.plugins.localnotifications.NotificationDismissReceiver
-ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:13:9-107
+ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:13:9-107
 	android:name
-		ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:13:19-104
+		ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:13:19-104
 receiver#com.capacitorjs.plugins.localnotifications.LocalNotificationRestoreReceiver
-ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:14:9-23:20
+ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:14:9-23:20
 	android:exported
-		ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:17:13-37
+		ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:17:13-37
 	android:directBootAware
-		ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:16:13-43
+		ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:16:13-43
 	android:name
-		ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:15:13-103
+		ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:15:13-103
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.LOCKED_BOOT_COMPLETED+action:name:android.intent.action.QUICKBOOT_POWERON
-ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:18:13-22:29
+ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:18:13-22:29
 action#android.intent.action.LOCKED_BOOT_COMPLETED
-ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:19:17-86
+ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:19:17-86
 	android:name
-		ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:19:25-83
+		ADDED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:19:25-83
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [io.ionic.libs:iongeolocation-android:2.1.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/4b081d0426f9ad4ad308657254b2e15b/transformed/iongeolocation-android-2.1.0/AndroidManifest.xml:7:5-79
 	android:name

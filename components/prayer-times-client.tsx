@@ -85,7 +85,6 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
 
     // Priority 1: Use initialCity from URL (regional pages)
     if (initialCity) {
-      console.log("[v0] Using initialCity:", initialCity.name)
       setLocation({
         lat: initialCity.lat,
         lng: initialCity.lng,
@@ -101,12 +100,10 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
         try {
           const parsed = JSON.parse(cached)
           if (typeof parsed.lat === "number" && typeof parsed.lng === "number") {
-            console.log("[v0] Using cached location:", parsed)
             setLocation(parsed)
             resolved = true
           }
-        } catch (err) {
-          console.error("[v0] Failed to parse cached location:", err)
+        } catch {
           localStorage.removeItem("last_location")
         }
       }
@@ -115,10 +112,8 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
     // Priority 3: Request fresh GPS location only for non-regional pages
     if (!resolved && !isRegional && !hasRequestedGPS.current) {
       hasRequestedGPS.current = true
-      console.log("[v0] Requesting GPS position...")
       refreshLocation()
     } else {
-      // If we have a location (initial city or cached), stop loading
       if (resolved) {
         setLoading(false)
       }
@@ -141,13 +136,8 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
       clearTimeout(notificationDebounceTimer.current)
     }
 
-    // Increased to 2000ms so the 1-second clock tick doesn't constantly reset the timer
     notificationDebounceTimer.current = setTimeout(() => {
       if (loc) {
-        console.log("[v0] 🚀 TRIGGERING NATIVE ALARM SYNC")
-        console.log("[v0] [Prayer Client] Location:", loc)
-        console.log("[v0] [Prayer Client] Settings:", sett)
-
         const liveTimezone = -new Date().getTimezoneOffset() / 60
 
         const methodMap: Record<number, CalcMethod> = {
@@ -172,21 +162,15 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
           sett.asrShadow as 1 | 2,
           sett.hijriOffset,
           sett.prayerSoundSettings,
-        )
-          .then((result) => {
-            console.log("[v0] Native Alarm Sync Result:", result)
-          })
-          .catch((error) => {
-            console.error("[v0] Native Alarm Sync Error:", error)
-          })
+        ).catch((error) => {
+          console.error("Native Alarm Sync Error:", error)
+        })
       }
     }, 2000)
   }, [])
 
   useEffect(() => {
-    // Only calculate if we have location
     if (!location) {
-      console.log("[v0] No location yet, waiting...")
       setLoading(true)
       return
     }
@@ -194,15 +178,6 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
     const liveTimezone = -new Date().getTimezoneOffset() / 60
 
     try {
-      console.log("[v0] ===== PRAYER CALCULATION STARTING =====")
-      console.log("[v0] Calculating prayer times for:", location)
-      console.log("[v0] Using settings:", {
-        method: settings.method,
-        asrShadow: settings.asrShadow,
-        hijriOffset: settings.hijriOffset,
-        prayerSoundSettings: settings.prayerSoundSettings,
-      })
-
       const methodMap: Record<number, CalcMethod> = {
         0: CalcMethod.Karachi,
         1: CalcMethod.MWL,
@@ -214,11 +189,8 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
       if (typeof settings.method === "number") {
         calcMethod = methodMap[settings.method] || CalcMethod.Karachi
       } else {
-        // If somehow a string got saved, use it directly
         calcMethod = settings.method as CalcMethod
       }
-
-      console.log("[v0] Mapped method from", settings.method, "to", calcMethod)
 
       const calculated = calculatePrayerTimes(
         location.lat,
@@ -232,29 +204,23 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
         settings.hijriOffset,
       )
 
-      console.log("[v0] Calculated times:", calculated)
-
       if (calculated && typeof calculated === "object" && "fajr" in calculated && "sunrise" in calculated) {
         setTimes(calculated)
         setLoading(false)
-        console.log("[v0] Prayer times set successfully. Triggering notification scheduling...")
         scheduleNotificationsDebounced(location, settings)
       } else {
-        console.error("[v0] Invalid prayer times object:", calculated)
         setLoading(false)
       }
-    } catch (error) {
-      console.error("[v0] Calculation Error:", error)
+    } catch {
       setLoading(false)
     }
-  }, [location, settings]) // Updated dependency array
+  }, [location, settings])
 
   useEffect(() => {
     if (location && times) {
-      console.log("[v0] [UI] Times or settings changed, scheduling notifications...")
       scheduleNotificationsDebounced(location, settings)
     }
-  }, [times, settings, location, scheduleNotificationsDebounced]) // Updated dependency array
+  }, [times, settings, location, scheduleNotificationsDebounced])
 
   const refreshLocation = useCallback(async () => {
     if (isRefreshing) return
@@ -262,10 +228,7 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
     setGpsError(null)
     setLoading(true)
 
-    console.log("[v0] Requesting GPS position...")
-
     const gpsTimeout = setTimeout(() => {
-      console.warn("[v0] GPS request timed out after 30 seconds")
       setIsRefreshing(false)
       setLoading(false)
       setGpsError("GPS timeout. Waiting for location...")
@@ -285,7 +248,6 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
         timezone: -new Date().getTimezoneOffset() / 60,
       }
 
-      console.log("[v0] GPS position acquired:", loc)
       setLocation(loc)
 
       if (typeof window !== "undefined") {
@@ -297,8 +259,6 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
       setLoading(false)
     } catch (err: any) {
       clearTimeout(gpsTimeout)
-
-      console.error("[v0] GPS Error:", err?.message || err)
       setGpsError("GPS error: " + (err?.message || "Unable to get location"))
       setIsRefreshing(false)
       setLoading(false)
@@ -352,20 +312,19 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
                           updateSettings({ prayerSoundSettings: newSounds })
                         }}
                         className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none ${
-    settings.prayerSoundSettings[prayer as keyof typeof settings.prayerSoundSettings]
-      ? "bg-[#1B3C26]" // Use your specific dark green from the screenshot
-      : "bg-gray-200"
-  }`}
->
-  <span
-    // 'pointer-events-none' ensures the click only registers on the button
-    className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-      settings.prayerSoundSettings[prayer as keyof typeof settings.prayerSoundSettings]
-        ? "translate-x-6" 
-        : "translate-x-1"
-    }`}
-  />
-</button>
+                          settings.prayerSoundSettings[prayer as keyof typeof settings.prayerSoundSettings]
+                            ? "bg-[#1B3C26]"
+                            : "bg-gray-200"
+                        }`}
+                      >
+                        <span
+                          className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                            settings.prayerSoundSettings[prayer as keyof typeof settings.prayerSoundSettings]
+                              ? "translate-x-6"
+                              : "translate-x-1"
+                          }`}
+                        />
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -375,6 +334,12 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
                 className="w-full py-4 border border-primary/20 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-primary hover:text-white transition-all duration-500"
               >
                 {t.close}
+              </button>
+              <button
+                onClick={() => window.open("https://namaz-time-mm-privacy-policy.shainwaiyan.com/", "_blank")}
+                className="w-full mt-4 text-[10px] tracking-[0.2em] uppercase text-muted-foreground hover:text-primary underline underline-offset-4 transition-colors duration-300"
+              >
+                {t.privacy_policy}
               </button>
             </div>
           </div>

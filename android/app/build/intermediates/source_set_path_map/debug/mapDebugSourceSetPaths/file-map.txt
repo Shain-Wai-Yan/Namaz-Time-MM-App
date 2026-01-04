@@ -26,16 +26,16 @@ com.xolbine.namaztimemm.app-lifecycle-livedata-2.6.2-24 /Users/shainwaiyan/.grad
 com.xolbine.namaztimemm.app-lifecycle-viewmodel-ktx-2.6.2-25 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/eecfe7d0cd3e573e80423529327c22ac/transformed/lifecycle-viewmodel-ktx-2.6.2/res
 com.xolbine.namaztimemm.app-startup-runtime-1.1.1-26 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/f11aba824a433654f3d4e95bf6854332/transformed/startup-runtime-1.1.1/res
 com.xolbine.namaztimemm.app-appcompat-1.6.1-27 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/f1b5ee8936ec4392875446840cd3251f/transformed/appcompat-1.6.1/res
-com.xolbine.namaztimemm.app-pngs-28 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/build/generated/res/pngs/debug
-com.xolbine.namaztimemm.app-resValues-29 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/build/generated/res/resValues/debug
-com.xolbine.namaztimemm.app-packageDebugResources-30 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/build/intermediates/incremental/debug/packageDebugResources/merged.dir
-com.xolbine.namaztimemm.app-packageDebugResources-31 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/build/intermediates/incremental/debug/packageDebugResources/stripped.dir
-com.xolbine.namaztimemm.app-debug-32 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/build/intermediates/merged_res/debug/mergeDebugResources
-com.xolbine.namaztimemm.app-debug-33 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/debug/res
-com.xolbine.namaztimemm.app-main-34 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/src/main/res
-com.xolbine.namaztimemm.app-debug-35 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/capacitor-cordova-android-plugins/build/intermediates/packaged_res/debug/packageDebugResources
-com.xolbine.namaztimemm.app-debug-36 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/android/capacitor/build/intermediates/packaged_res/debug/packageDebugResources
-com.xolbine.namaztimemm.app-debug-37 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/geolocation/android/build/intermediates/packaged_res/debug/packageDebugResources
-com.xolbine.namaztimemm.app-debug-38 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/haptics/android/build/intermediates/packaged_res/debug/packageDebugResources
-com.xolbine.namaztimemm.app-debug-39 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/local-notifications/android/build/intermediates/packaged_res/debug/packageDebugResources
-com.xolbine.namaztimemm.app-debug-40 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/node_modules/@capacitor/splash-screen/android/build/intermediates/packaged_res/debug/packageDebugResources
+com.xolbine.namaztimemm.app-pngs-28 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/build/generated/res/pngs/debug
+com.xolbine.namaztimemm.app-resValues-29 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/build/generated/res/resValues/debug
+com.xolbine.namaztimemm.app-packageDebugResources-30 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/build/intermediates/incremental/debug/packageDebugResources/merged.dir
+com.xolbine.namaztimemm.app-packageDebugResources-31 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/build/intermediates/incremental/debug/packageDebugResources/stripped.dir
+com.xolbine.namaztimemm.app-debug-32 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/build/intermediates/merged_res/debug/mergeDebugResources
+com.xolbine.namaztimemm.app-debug-33 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/debug/res
+com.xolbine.namaztimemm.app-main-34 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/res
+com.xolbine.namaztimemm.app-debug-35 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/capacitor-cordova-android-plugins/build/intermediates/packaged_res/debug/packageDebugResources
+com.xolbine.namaztimemm.app-debug-36 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/android/capacitor/build/intermediates/packaged_res/debug/packageDebugResources
+com.xolbine.namaztimemm.app-debug-37 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/geolocation/android/build/intermediates/packaged_res/debug/packageDebugResources
+com.xolbine.namaztimemm.app-debug-38 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/haptics/android/build/intermediates/packaged_res/debug/packageDebugResources
+com.xolbine.namaztimemm.app-debug-39 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/packaged_res/debug/packageDebugResources
+com.xolbine.namaztimemm.app-debug-40 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/splash-screen/android/build/intermediates/packaged_res/debug/packageDebugResources

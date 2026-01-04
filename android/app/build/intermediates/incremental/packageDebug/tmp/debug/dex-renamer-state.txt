@@ -1,8 +1,8 @@
-#Sun Jan 04 15:19:58 MMT 2026
-base.0=/Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
-base.1=/Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/build/intermediates/dex/debug/mergeLibDexDebug/0/classes.dex
-base.2=/Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
-base.3=/Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/build/intermediates/dex/debug/mergeProjectDexDebug/13/classes.dex
+#Sun Jan 04 19:31:41 MMT 2026
+base.0=/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
+base.1=/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/build/intermediates/dex/debug/mergeLibDexDebug/0/classes.dex
+base.2=/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
+base.3=/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/build/intermediates/dex/debug/mergeProjectDexDebug/13/classes.dex
 path.0=classes.dex
 path.1=0/classes.dex
 path.2=0/classes.dex

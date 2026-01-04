@@ -1,0 +1,324 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.xolbine.namaztimemm"
+4    android:versionCode="5"
+5    android:versionName="1.4.8" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="23"
+9        android:targetSdkVersion="35" />
+10    <!-- Added permissions for alarm system -->
+11    <!-- Location permissions (existing) -->
+12    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+12-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:5:5-81
+12-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:5:22-78
+13    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+13-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:6:5-79
+13-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:6:22-76
+14
+15    <uses-feature android:name="android.hardware.location.gps" />
+15-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:7:5-66
+15-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:7:19-63
+16    <uses-feature
+16-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:8:5-98
+17        android:name="android.hardware.sensor.accelerometer"
+17-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:8:19-71
+18        android:required="true" />
+18-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:8:72-95
+19    <uses-feature
+19-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:9:5-92
+20        android:name="android.hardware.sensor.compass"
+20-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:9:19-65
+21        android:required="true" />
+21-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:9:66-89
+22    <!-- Alarm and notification permissions -->
+23    <uses-permission android:name="android.permission.WAKE_LOCK" />
+23-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:11:5-68
+23-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:11:22-65
+24    <uses-permission android:name="android.permission.VIBRATE" />
+24-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:12:5-66
+24-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:12:22-63
+25    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+25-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:13:5-81
+25-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:13:22-78
+26    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+26-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:14:5-77
+26-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:14:22-74
+27    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+27-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:15:5-92
+27-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:15:22-89
+28    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+28-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:16:5-77
+28-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:16:22-74
+29    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+29-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:17:5-89
+29-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:17:22-86
+30    <!-- USE_EXACT_ALARM is automatically granted for clock/alarm apps without user interaction -->
+31    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+31-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:19:5-74
+31-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:19:22-71
+32    <!-- Added USE_FULL_SCREEN_INTENT for alarm notifications -->
+33    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+33-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:21:5-81
+33-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:21:22-78
+34    <!-- Permissions -->
+35    <uses-permission android:name="android.permission.INTERNET" />
+35-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:88:5-67
+35-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:88:22-64
+36    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+36-->[io.ionic.libs:iongeolocation-android:2.1.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/4b081d0426f9ad4ad308657254b2e15b/transformed/iongeolocation-android-2.1.0/AndroidManifest.xml:7:5-79
+36-->[io.ionic.libs:iongeolocation-android:2.1.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/4b081d0426f9ad4ad308657254b2e15b/transformed/iongeolocation-android-2.1.0/AndroidManifest.xml:7:22-76
+37
+38    <permission
+38-->[androidx.core:core:1.13.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/df8106ed2c9a77a78a831c4846e774e7/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+39        android:name="com.xolbine.namaztimemm.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+39-->[androidx.core:core:1.13.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/df8106ed2c9a77a78a831c4846e774e7/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+40        android:protectionLevel="signature" />
+40-->[androidx.core:core:1.13.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/df8106ed2c9a77a78a831c4846e774e7/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+41
+42    <uses-permission android:name="com.xolbine.namaztimemm.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+42-->[androidx.core:core:1.13.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/df8106ed2c9a77a78a831c4846e774e7/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+42-->[androidx.core:core:1.13.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/df8106ed2c9a77a78a831c4846e774e7/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
+43
+44    <application
+44-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:22:5-86:19
+45        android:allowBackup="true"
+45-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:23:9-35
+46        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+46-->[androidx.core:core:1.13.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/df8106ed2c9a77a78a831c4846e774e7/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
+47        android:extractNativeLibs="false"
+48        android:icon="@mipmap/ic_launcher"
+48-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:24:9-43
+49        android:label="@string/app_name"
+49-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:25:9-41
+50        android:roundIcon="@mipmap/ic_launcher_round"
+50-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:26:9-54
+51        android:supportsRtl="true"
+51-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:27:9-35
+52        android:theme="@style/AppTheme" >
+52-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:28:9-40
+53        <activity
+53-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:29:9-40:20
+54            android:name="com.xolbine.namaztimemm.MainActivity"
+54-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:31:13-41
+55            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
+55-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:30:13-129
+56            android:exported="true"
+56-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:35:13-36
+57            android:label="@string/title_activity_main"
+57-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:32:13-56
+58            android:launchMode="singleTask"
+58-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:34:13-44
+59            android:theme="@style/AppTheme.NoActionBarLaunch" >
+59-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:33:13-62
+60            <intent-filter>
+60-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:36:13-39:29
+61                <action android:name="android.intent.action.MAIN" />
+61-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:37:17-69
+61-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:37:25-66
+62
+63                <category android:name="android.intent.category.LAUNCHER" />
+63-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:38:17-77
+63-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:38:27-74
+64            </intent-filter>
+65        </activity>
+66        <!-- Added AlarmActivity with lock screen visibility flags -->
+67        <activity
+67-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:42:9-49:40
+68            android:name="com.xolbine.namaztimemm.AlarmActivity"
+68-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:43:13-42
+69            android:excludeFromRecents="true"
+69-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:48:13-46
+70            android:exported="false"
+70-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:49:13-37
+71            android:launchMode="singleInstance"
+71-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:45:13-48
+72            android:showWhenLocked="true"
+72-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:46:13-42
+73            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+73-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:44:13-71
+74            android:turnScreenOn="true" />
+74-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:47:13-40
+75        <!-- Added alarm system components -->
+76        <!-- Broadcast receiver for alarms -->
+77        <receiver
+77-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:52:9-59:20
+78            android:name="com.xolbine.namaztimemm.AdhanAlarmReceiver"
+78-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:53:13-47
+79            android:enabled="true"
+79-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:54:13-35
+80            android:exported="false" >
+80-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:55:13-37
+81            <intent-filter>
+81-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:56:13-58:29
+82                <action android:name="com.xolbine.namaztimemm.ADHAN_ALARM" />
+82-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:57:17-78
+82-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:57:25-75
+83            </intent-filter>
+84        </receiver>
+85        <!-- Boot receiver to reschedule alarms after restart -->
+86        <receiver
+86-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:61:9-72:20
+87            android:name="com.xolbine.namaztimemm.BootReceiver"
+87-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:62:13-41
+88            android:enabled="true"
+88-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:63:13-35
+89            android:exported="true"
+89-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:64:13-36
+90            android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
+90-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:65:13-75
+91            <intent-filter>
+91-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:66:13-71:29
+92                <action android:name="android.intent.action.BOOT_COMPLETED" />
+92-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:67:17-79
+92-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:67:25-76
+93                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+93-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:68:17-82
+93-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:68:25-79
+94                <!-- Added MY_PACKAGE_REPLACED to reschedule alarms after app updates -->
+95                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+95-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:70:17-84
+95-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:70:25-81
+96            </intent-filter>
+97        </receiver>
+98        <!-- Foreground service for playing adhan -->
+99        <service
+99-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:74:9-78:61
+100            android:name="com.xolbine.namaztimemm.AdhanPlayerService"
+100-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:75:13-47
+101            android:enabled="true"
+101-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:76:13-35
+102            android:exported="false"
+102-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:77:13-37
+103            android:foregroundServiceType="mediaPlayback" />
+103-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:78:13-58
+104
+105        <provider
+106            android:name="androidx.core.content.FileProvider"
+106-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:80:13-62
+107            android:authorities="com.xolbine.namaztimemm.fileprovider"
+107-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:81:13-64
+108            android:exported="false"
+108-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:82:13-37
+109            android:grantUriPermissions="true" >
+109-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:83:13-47
+110            <meta-data
+110-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:84:13-112
+111                android:name="android.support.FILE_PROVIDER_PATHS"
+111-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:84:24-74
+112                android:resource="@xml/file_paths" />
+112-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:84:75-109
+113        </provider>
+114
+115        <receiver android:name="com.capacitorjs.plugins.localnotifications.TimedNotificationPublisher" />
+115-->[:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:12:9-106
+115-->[:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:12:19-103
+116        <receiver android:name="com.capacitorjs.plugins.localnotifications.NotificationDismissReceiver" />
+116-->[:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:13:9-107
+116-->[:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:13:19-104
+117        <receiver
+117-->[:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:14:9-23:20
+118            android:name="com.capacitorjs.plugins.localnotifications.LocalNotificationRestoreReceiver"
+118-->[:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:15:13-103
+119            android:directBootAware="true"
+119-->[:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:16:13-43
+120            android:exported="false" >
+120-->[:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:17:13-37
+121            <intent-filter>
+121-->[:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:18:13-22:29
+122                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+122-->[:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:19:17-86
+122-->[:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:19:25-83
+123                <action android:name="android.intent.action.BOOT_COMPLETED" />
+123-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:67:17-79
+123-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:67:25-76
+124                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+124-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:68:17-82
+124-->/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:68:25-79
+125            </intent-filter>
+126        </receiver>
+127
+128        <activity
+128-->[com.google.android.gms:play-services-base:18.5.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/b2956c1370a1eb16e967482248592d09/transformed/play-services-base-18.5.0/AndroidManifest.xml:5:9-173
+129            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+129-->[com.google.android.gms:play-services-base:18.5.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/b2956c1370a1eb16e967482248592d09/transformed/play-services-base-18.5.0/AndroidManifest.xml:5:19-85
+130            android:exported="false"
+130-->[com.google.android.gms:play-services-base:18.5.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/b2956c1370a1eb16e967482248592d09/transformed/play-services-base-18.5.0/AndroidManifest.xml:5:146-170
+131            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+131-->[com.google.android.gms:play-services-base:18.5.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/b2956c1370a1eb16e967482248592d09/transformed/play-services-base-18.5.0/AndroidManifest.xml:5:86-145
+132
+133        <meta-data
+133-->[com.google.android.gms:play-services-basement:18.4.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/dd4076eaa0a7acd6062d991357f76fc2/transformed/play-services-basement-18.4.0/AndroidManifest.xml:6:9-122
+134            android:name="com.google.android.gms.version"
+134-->[com.google.android.gms:play-services-basement:18.4.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/dd4076eaa0a7acd6062d991357f76fc2/transformed/play-services-basement-18.4.0/AndroidManifest.xml:6:20-65
+135            android:value="@integer/google_play_services_version" />
+135-->[com.google.android.gms:play-services-basement:18.4.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/dd4076eaa0a7acd6062d991357f76fc2/transformed/play-services-basement-18.4.0/AndroidManifest.xml:6:66-119
+136
+137        <provider
+137-->[androidx.emoji2:emoji2:1.2.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/bfcd1a815e2d33ddc6f1d73a51e0a3e6/transformed/emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+138            android:name="androidx.startup.InitializationProvider"
+138-->[androidx.emoji2:emoji2:1.2.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/bfcd1a815e2d33ddc6f1d73a51e0a3e6/transformed/emoji2-1.2.0/AndroidManifest.xml:25:13-67
+139            android:authorities="com.xolbine.namaztimemm.androidx-startup"
+139-->[androidx.emoji2:emoji2:1.2.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/bfcd1a815e2d33ddc6f1d73a51e0a3e6/transformed/emoji2-1.2.0/AndroidManifest.xml:26:13-68
+140            android:exported="false" >
+140-->[androidx.emoji2:emoji2:1.2.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/bfcd1a815e2d33ddc6f1d73a51e0a3e6/transformed/emoji2-1.2.0/AndroidManifest.xml:27:13-37
+141            <meta-data
+141-->[androidx.emoji2:emoji2:1.2.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/bfcd1a815e2d33ddc6f1d73a51e0a3e6/transformed/emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+142                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+142-->[androidx.emoji2:emoji2:1.2.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/bfcd1a815e2d33ddc6f1d73a51e0a3e6/transformed/emoji2-1.2.0/AndroidManifest.xml:30:17-75
+143                android:value="androidx.startup" />
+143-->[androidx.emoji2:emoji2:1.2.0] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/bfcd1a815e2d33ddc6f1d73a51e0a3e6/transformed/emoji2-1.2.0/AndroidManifest.xml:31:17-49
+144            <meta-data
+144-->[androidx.lifecycle:lifecycle-process:2.6.2] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/7f167b00c787e6304d122b109f4dbbe8/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:29:13-31:52
+145                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+145-->[androidx.lifecycle:lifecycle-process:2.6.2] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/7f167b00c787e6304d122b109f4dbbe8/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:30:17-78
+146                android:value="androidx.startup" />
+146-->[androidx.lifecycle:lifecycle-process:2.6.2] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/7f167b00c787e6304d122b109f4dbbe8/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:31:17-49
+147            <meta-data
+147-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+148                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+148-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+149                android:value="androidx.startup" />
+149-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+150        </provider>
+151
+152        <receiver
+152-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+153            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+153-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+154            android:directBootAware="false"
+154-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+155            android:enabled="true"
+155-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+156            android:exported="true"
+156-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+157            android:permission="android.permission.DUMP" >
+157-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+158            <intent-filter>
+158-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+159                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+159-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+159-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+160            </intent-filter>
+161            <intent-filter>
+161-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+162                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+162-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+162-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+163            </intent-filter>
+164            <intent-filter>
+164-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+165                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+165-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+165-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+166            </intent-filter>
+167            <intent-filter>
+167-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+168                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+168-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+168-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
+169            </intent-filter>
+170        </receiver>
+171    </application>
+172
+173</manifest>

@@ -1,0 +1,41 @@
+com.xolbine.namaztimemm.app-core-runtime-2.2.0-0 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/039bdb4f4c876d55c398ae6ffb947edd/transformed/core-runtime-2.2.0/res
+com.xolbine.namaztimemm.app-lifecycle-runtime-2.6.2-1 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/264c7ace2a6b6043b1cf4ba75382335d/transformed/lifecycle-runtime-2.6.2/res
+com.xolbine.namaztimemm.app-fragment-1.6.2-2 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/486a87fcce17d2e5fbd5062720c7310b/transformed/fragment-1.6.2/res
+com.xolbine.namaztimemm.app-activity-1.9.3-3 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/4b759c95e8589131a12f0b441ec6f5ea/transformed/activity-1.9.3/res
+com.xolbine.namaztimemm.app-webkit-1.9.0-4 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/54fd74f4eee693b6966a2553acf55343/transformed/webkit-1.9.0/res
+com.xolbine.namaztimemm.app-lifecycle-viewmodel-2.6.2-5 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/5e09a36c04c050809ebb44aca4e8c178/transformed/lifecycle-viewmodel-2.6.2/res
+com.xolbine.namaztimemm.app-savedstate-1.2.1-6 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/62c7767bb8e4f298e8669f5ced7398e7/transformed/savedstate-1.2.1/res
+com.xolbine.namaztimemm.app-emoji2-views-helper-1.2.0-7 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/737fef49ad4a1531aa22eff6275bad58/transformed/emoji2-views-helper-1.2.0/res
+com.xolbine.namaztimemm.app-profileinstaller-1.3.1-8 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/748517a1267b75c9aeb50a1cf7340c90/transformed/profileinstaller-1.3.1/res
+com.xolbine.namaztimemm.app-lifecycle-process-2.6.2-9 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/7f167b00c787e6304d122b109f4dbbe8/transformed/lifecycle-process-2.6.2/res
+com.xolbine.namaztimemm.app-activity-ktx-1.9.3-10 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/8d2a17cce7c4966cedef89ae7f987aa2/transformed/activity-ktx-1.9.3/res
+com.xolbine.namaztimemm.app-savedstate-ktx-1.2.1-11 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/959a7949f4debae70ed8653b2c9d846f/transformed/savedstate-ktx-1.2.1/res
+com.xolbine.namaztimemm.app-core-ktx-1.13.1-12 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/a244a6cc1d65032224ae94c2981fc1ce/transformed/core-ktx-1.13.1/res
+com.xolbine.namaztimemm.app-lifecycle-viewmodel-savedstate-2.6.2-13 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/aa487dbcca4a10dc3c3ef5af583b0673/transformed/lifecycle-viewmodel-savedstate-2.6.2/res
+com.xolbine.namaztimemm.app-play-services-base-18.5.0-14 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/b2956c1370a1eb16e967482248592d09/transformed/play-services-base-18.5.0/res
+com.xolbine.namaztimemm.app-coordinatorlayout-1.2.0-15 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/bbea7aa39e3045f4133dc7bc13769ed1/transformed/coordinatorlayout-1.2.0/res
+com.xolbine.namaztimemm.app-core-splashscreen-1.0.1-16 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/bda46f878c8c28356c6bdb0293873f99/transformed/core-splashscreen-1.0.1/res
+com.xolbine.namaztimemm.app-emoji2-1.2.0-17 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/bfcd1a815e2d33ddc6f1d73a51e0a3e6/transformed/emoji2-1.2.0/res
+com.xolbine.namaztimemm.app-lifecycle-livedata-core-2.6.2-18 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/c38a5a394e7d5df7085db9a0a4a18a40/transformed/lifecycle-livedata-core-2.6.2/res
+com.xolbine.namaztimemm.app-appcompat-resources-1.6.1-19 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/c7923bfdbcc8f62c24c2594feae8bc8a/transformed/appcompat-resources-1.6.1/res
+com.xolbine.namaztimemm.app-annotation-experimental-1.4.0-20 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/c8987a08fcd8445fa637509fcf20a792/transformed/annotation-experimental-1.4.0/res
+com.xolbine.namaztimemm.app-lifecycle-runtime-ktx-2.6.2-21 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/d4e399757014363f3e1bb67cc0719a54/transformed/lifecycle-runtime-ktx-2.6.2/res
+com.xolbine.namaztimemm.app-play-services-basement-18.4.0-22 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/dd4076eaa0a7acd6062d991357f76fc2/transformed/play-services-basement-18.4.0/res
+com.xolbine.namaztimemm.app-core-1.13.1-23 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/df8106ed2c9a77a78a831c4846e774e7/transformed/core-1.13.1/res
+com.xolbine.namaztimemm.app-lifecycle-livedata-2.6.2-24 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/e807dc0cea7c3d5e5335cbd5dc90509d/transformed/lifecycle-livedata-2.6.2/res
+com.xolbine.namaztimemm.app-lifecycle-viewmodel-ktx-2.6.2-25 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/eecfe7d0cd3e573e80423529327c22ac/transformed/lifecycle-viewmodel-ktx-2.6.2/res
+com.xolbine.namaztimemm.app-startup-runtime-1.1.1-26 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/f11aba824a433654f3d4e95bf6854332/transformed/startup-runtime-1.1.1/res
+com.xolbine.namaztimemm.app-appcompat-1.6.1-27 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/f1b5ee8936ec4392875446840cd3251f/transformed/appcompat-1.6.1/res
+com.xolbine.namaztimemm.app-pngs-28 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/build/generated/res/pngs/release
+com.xolbine.namaztimemm.app-resValues-29 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/build/generated/res/resValues/release
+com.xolbine.namaztimemm.app-packageReleaseResources-30 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/build/intermediates/incremental/release/packageReleaseResources/merged.dir
+com.xolbine.namaztimemm.app-packageReleaseResources-31 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/build/intermediates/incremental/release/packageReleaseResources/stripped.dir
+com.xolbine.namaztimemm.app-release-32 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/build/intermediates/merged_res/release/mergeReleaseResources
+com.xolbine.namaztimemm.app-main-33 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/res
+com.xolbine.namaztimemm.app-release-34 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/release/res
+com.xolbine.namaztimemm.app-release-35 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/capacitor-cordova-android-plugins/build/intermediates/packaged_res/release/packageReleaseResources
+com.xolbine.namaztimemm.app-release-36 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/android/capacitor/build/intermediates/packaged_res/release/packageReleaseResources
+com.xolbine.namaztimemm.app-release-37 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/geolocation/android/build/intermediates/packaged_res/release/packageReleaseResources
+com.xolbine.namaztimemm.app-release-38 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/haptics/android/build/intermediates/packaged_res/release/packageReleaseResources
+com.xolbine.namaztimemm.app-release-39 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/packaged_res/release/packageReleaseResources
+com.xolbine.namaztimemm.app-release-40 /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/splash-screen/android/build/intermediates/packaged_res/release/packageReleaseResources

@@ -14,7 +14,8 @@ import { Languages, ChevronDown, MapPin, ArrowLeft, Compass } from "lucide-react
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Geolocation } from "@capacitor/geolocation"
-import { schedulePrayerNotifications, createNotificationChannels } from "@/lib/notifications"
+import { scheduleNativeAlarms } from "@/lib/native-alarm-scheduler"
+import { createNotificationChannels } from "@/lib/notifications"
 import { loadSettings, saveSettings, type UserSettings } from "@/lib/storage"
 
 export default function PrayerTimesClient({ initialTimes, initialCity, initialHijri, initialEvent, isRegional }: any) {
@@ -140,21 +141,47 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
       clearTimeout(notificationDebounceTimer.current)
     }
 
+    // Increased to 2000ms so the 1-second clock tick doesn't constantly reset the timer
     notificationDebounceTimer.current = setTimeout(() => {
       if (loc) {
+        console.log("[v0] 🚀 TRIGGERING NATIVE ALARM SYNC")
+        console.log("[v0] [Prayer Client] Location:", loc)
+        console.log("[v0] [Prayer Client] Settings:", sett)
+
         const liveTimezone = -new Date().getTimezoneOffset() / 60
-        schedulePrayerNotifications(
+
+        const methodMap: Record<number, CalcMethod> = {
+          0: CalcMethod.Karachi,
+          1: CalcMethod.MWL,
+          2: CalcMethod.Egypt,
+          3: CalcMethod.UmmAlQura,
+        }
+
+        let calcMethod: CalcMethod
+        if (typeof sett.method === "number") {
+          calcMethod = methodMap[sett.method] || CalcMethod.Karachi
+        } else {
+          calcMethod = sett.method as CalcMethod
+        }
+
+        scheduleNativeAlarms(
           loc.lat,
           loc.lng,
           liveTimezone,
-          sett.method as CalcMethod,
-          sett.asrShadow,
+          calcMethod,
+          sett.asrShadow as 1 | 2,
           sett.hijriOffset,
           sett.prayerSoundSettings,
         )
+          .then((result) => {
+            console.log("[v0] Native Alarm Sync Result:", result)
+          })
+          .catch((error) => {
+            console.error("[v0] Native Alarm Sync Error:", error)
+          })
       }
-    }, 500)
-  }, []) // Empty dependency array is correct since all values are passed as parameters
+    }, 2000)
+  }, [])
 
   useEffect(() => {
     // Only calculate if we have location
@@ -167,11 +194,13 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
     const liveTimezone = -new Date().getTimezoneOffset() / 60
 
     try {
+      console.log("[v0] ===== PRAYER CALCULATION STARTING =====")
       console.log("[v0] Calculating prayer times for:", location)
       console.log("[v0] Using settings:", {
         method: settings.method,
         asrShadow: settings.asrShadow,
         hijriOffset: settings.hijriOffset,
+        prayerSoundSettings: settings.prayerSoundSettings,
       })
 
       const methodMap: Record<number, CalcMethod> = {
@@ -208,7 +237,7 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
       if (calculated && typeof calculated === "object" && "fajr" in calculated && "sunrise" in calculated) {
         setTimes(calculated)
         setLoading(false)
-        console.log("[v0] Prayer times set successfully")
+        console.log("[v0] Prayer times set successfully. Triggering notification scheduling...")
         scheduleNotificationsDebounced(location, settings)
       } else {
         console.error("[v0] Invalid prayer times object:", calculated)
@@ -218,7 +247,14 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
       console.error("[v0] Calculation Error:", error)
       setLoading(false)
     }
-  }, [location, settings, scheduleNotificationsDebounced]) // Use entire settings object instead of specific properties
+  }, [location, settings]) // Updated dependency array
+
+  useEffect(() => {
+    if (location && times) {
+      console.log("[v0] [UI] Times or settings changed, scheduling notifications...")
+      scheduleNotificationsDebounced(location, settings)
+    }
+  }, [times, settings, location, scheduleNotificationsDebounced]) // Updated dependency array
 
   const refreshLocation = useCallback(async () => {
     if (isRefreshing) return
@@ -315,20 +351,21 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
                           }
                           updateSettings({ prayerSoundSettings: newSounds })
                         }}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                          settings.prayerSoundSettings[prayer as keyof typeof settings.prayerSoundSettings]
-                            ? "bg-primary"
-                            : "bg-muted"
-                        }`}
-                      >
-                        <span
-                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                            settings.prayerSoundSettings[prayer as keyof typeof settings.prayerSoundSettings]
-                              ? "translate-x-6"
-                              : "translate-x-1"
-                          }`}
-                        />
-                      </button>
+                        className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none ${
+    settings.prayerSoundSettings[prayer as keyof typeof settings.prayerSoundSettings]
+      ? "bg-[#1B3C26]" // Use your specific dark green from the screenshot
+      : "bg-gray-200"
+  }`}
+>
+  <span
+    // 'pointer-events-none' ensures the click only registers on the button
+    className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+      settings.prayerSoundSettings[prayer as keyof typeof settings.prayerSoundSettings]
+        ? "translate-x-6" 
+        : "translate-x-1"
+    }`}
+  />
+</button>
                     </div>
                   ))}
                 </div>

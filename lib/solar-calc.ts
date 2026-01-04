@@ -9,6 +9,7 @@ export type PrayerTimes = {
   fajr: string
   sunrise: string
   zawal: string
+  dhuhr: string
   asr: string
   maghrib: string
   isha: string
@@ -16,6 +17,7 @@ export type PrayerTimes = {
     fajr: number
     sunrise: number
     zawal: number
+    dhuhr: number
     asr: number
     maghrib: number
     isha: number
@@ -62,12 +64,7 @@ const atan = (x: number) => RAD2DEG * Math.atan(x)
 function julianDate(date: Date) {
   let y = date.getUTCFullYear()
   let m = date.getUTCMonth() + 1
-  const d =
-    date.getUTCDate() +
-    (date.getUTCHours() +
-      date.getUTCMinutes() / 60 +
-      date.getUTCSeconds() / 3600) /
-      24
+  const d = date.getUTCDate() + (date.getUTCHours() + date.getUTCMinutes() / 60 + date.getUTCSeconds() / 3600) / 24
 
   if (m <= 2) {
     y--
@@ -77,13 +74,7 @@ function julianDate(date: Date) {
   const A = Math.floor(y / 100)
   const B = 2 - A + Math.floor(A / 4)
 
-  return (
-    Math.floor(365.25 * (y + 4716)) +
-    Math.floor(30.6001 * (m + 1)) +
-    d +
-    B -
-    1524.5
-  )
+  return Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + d + B - 1524.5
 }
 
 /* -------------------- High-Precision Solar Position -------------------- */
@@ -91,25 +82,13 @@ function julianDate(date: Date) {
 function solarPosition(jd: number) {
   const T = (jd - 2451545.0) / 36525
 
-  const L0 =
-    280.46646 +
-    36000.76983 * T +
-    0.0003032 * T * T
+  const L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T * T
 
-  const M =
-    357.52911 +
-    35999.05029 * T -
-    0.0001537 * T * T
+  const M = 357.52911 + 35999.05029 * T - 0.0001537 * T * T
 
-  const e =
-    0.016708634 -
-    0.000042037 * T -
-    0.0000001267 * T * T
+  const e = 0.016708634 - 0.000042037 * T - 0.0000001267 * T * T
 
-  const C =
-    (1.914602 - 0.004817 * T) * sin(M) +
-    (0.019993 - 0.000101 * T) * sin(2 * M) +
-    0.000289 * sin(3 * M)
+  const C = (1.914602 - 0.004817 * T) * sin(M) + (0.019993 - 0.000101 * T) * sin(2 * M) + 0.000289 * sin(3 * M)
 
   const lambda = L0 + C
   const epsilon = 23.439291 - 0.0130042 * T
@@ -144,14 +123,7 @@ function asrAltitude(lat: number, decl: number, factor: 1 | 2) {
 
 /* -------------------- Iterative Solver (3-pass) -------------------- */
 
-function solveTime(
-  lat: number,
-  lng: number,
-  tz: number,
-  jd: number,
-  angle: number,
-  beforeNoon: boolean,
-) {
+function solveTime(lat: number, lng: number, tz: number, jd: number, angle: number, beforeNoon: boolean) {
   let t = 12
 
   for (let i = 0; i < 3; i++) {
@@ -197,12 +169,7 @@ export function getHijriDate(date: Date, offset = 0) {
   const a = Math.floor(year / 100)
   const b = 2 - a + Math.floor(a / 4)
 
-  const jd =
-    Math.floor(365.25 * (year + 4716)) +
-    Math.floor(30.6001 * (month + 1)) +
-    day +
-    b -
-    1524
+  const jd = Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + b - 1524
 
   const epoch = 1948440
   const l0 = jd - epoch + 10632
@@ -210,17 +177,13 @@ export function getHijriDate(date: Date, offset = 0) {
   const l = l0 - 10631 * n + 354
 
   const j =
-    Math.floor((10985 - l) / 5316) *
-      Math.floor((50 * l + 2) / 17719) +
-    Math.floor(l / 5670) *
-      Math.floor((43 * l + 2) / 15238)
+    Math.floor((10985 - l) / 5316) * Math.floor((50 * l + 2) / 17719) +
+    Math.floor(l / 5670) * Math.floor((43 * l + 2) / 15238)
 
   const l2 =
     l -
-    Math.floor((30 - j) / 15) *
-      Math.floor((17719 * j + 2) / 50) -
-    Math.floor(j / 16) *
-      Math.floor((15238 * j + 2) / 43) +
+    Math.floor((30 - j) / 15) * Math.floor((17719 * j + 2) / 50) -
+    Math.floor(j / 16) * Math.floor((15238 * j + 2) / 43) +
     29
 
   const monthH = Math.floor((24 * l2 + 3) / 709)
@@ -248,9 +211,7 @@ export function getIslamicEvent(day: number, month: number) {
   ]
 
   return events.find((e) =>
-    e.range
-      ? month === e.m && day >= e.d && day < e.d + e.range
-      : month === e.m && day === e.d,
+    e.range ? month === e.m && day >= e.d && day < e.d + e.range : month === e.m && day === e.d,
   )
 }
 
@@ -278,8 +239,8 @@ export function calculatePrayerTimesAdvanced(
     sunrise: -2,
     zawal: 0,
     asr: 0,
-    maghrib: 4, //added 4 minutes for safety 
-    isha: 2,//added 2 minutes for safety
+    maghrib: 4, //added 4 minutes for safety
+    isha: 2, //added 2 minutes for safety
   },
   hijriOffset = 0,
 ): PrayerTimes {
@@ -305,30 +266,27 @@ export function calculatePrayerTimesAdvanced(
   }
 
   const { decl } = solarPosition(jd)
-  const asr = solveTime(
-    lat,
-    lng,
-    timezone,
-    jd,
-    asrAltitude(lat, decl, asrSchool),
-    false,
-  )
+  const asr = solveTime(lat, lng, timezone, jd, asrAltitude(lat, decl, asrSchool), false)
 
   const zawal = (sunrise + sunset) / 2
+  const dhuhr = zawal + 5 / 60
 
   const times = {
-    fajr: fajr + offsets.fajr / 60,
-    sunrise: sunrise + offsets.sunrise / 60,
-    zawal: zawal + offsets.zawal / 60,
-    asr: asr + offsets.asr / 60,
-    maghrib: sunset + offsets.maghrib / 60,
-    isha: isha + offsets.isha / 60,
+    fajr: fajr + (offsets.fajr || 0) / 60,
+    sunrise: sunrise + (offsets.sunrise || 0) / 60,
+    zawal: zawal + (offsets.zawal || 0) / 60,
+    // Use offsets.dhuhr here, and the || 0 prevents the NaN crash
+    dhuhr: dhuhr + (offsets.dhuhr || 0) / 60, 
+    asr: asr + (offsets.asr || 0) / 60,
+    maghrib: sunset + (offsets.maghrib || 0) / 60,
+    isha: isha + (offsets.isha || 0) / 60,
   }
 
   return {
     fajr: formatHM(times.fajr),
     sunrise: formatHM(times.sunrise),
     zawal: formatHM(times.zawal),
+    dhuhr: formatHM(times.dhuhr),
     asr: formatHM(times.asr),
     maghrib: formatHM(times.maghrib),
     isha: formatHM(times.isha),
@@ -336,6 +294,7 @@ export function calculatePrayerTimesAdvanced(
       fajr: hoursToMins(times.fajr),
       sunrise: hoursToMins(times.sunrise),
       zawal: hoursToMins(times.zawal),
+      dhuhr: hoursToMins(times.dhuhr),
       asr: hoursToMins(times.asr),
       maghrib: hoursToMins(times.maghrib),
       isha: hoursToMins(times.isha),
@@ -346,7 +305,6 @@ export function calculatePrayerTimesAdvanced(
 /* -------------------- Backward Compatibility -------------------- */
 
 export const calculatePrayerTimes = calculatePrayerTimesAdvanced
-
 
 export const CITIES = [
   { name: "Yangon", slug: "yangon", lat: 16.8661, lng: 96.1951, timezone: 6.5 },

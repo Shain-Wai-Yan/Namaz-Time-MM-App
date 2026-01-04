@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next" // Added Viewport type
 import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
+import { NavLink } from "@/components/nav-link"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -60,11 +61,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body 
+      <body
         className="font-sans antialiased bg-background selection:bg-primary/10 selection:text-primary"
-        style={{ 
-          paddingTop: "env(safe-area-inset-top)",    /* The Fix for the Top Notch */
-          paddingBottom: "env(safe-area-inset-bottom)" /* The Fix for Bottom Gesture Bar */
+        style={{
+          paddingTop: "env(safe-area-inset-top)" /* The Fix for the Top Notch */,
+          paddingBottom: "env(safe-area-inset-bottom)" /* The Fix for Bottom Gesture Bar */,
         }}
       >
         {children}

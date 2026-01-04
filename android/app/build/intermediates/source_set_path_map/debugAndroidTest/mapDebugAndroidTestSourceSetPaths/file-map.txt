@@ -1,0 +1,6 @@
+com.xolbine.namaztimemm.test.app-core-1.5.0-0 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/03aa2ea92e60b16d9057c5354403c28e/transformed/core-1.5.0/res
+com.xolbine.namaztimemm.test.app-annotation-experimental-1.4.0-1 /Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/c8987a08fcd8445fa637509fcf20a792/transformed/annotation-experimental-1.4.0/res
+com.xolbine.namaztimemm.test.app-androidTest-2 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/build/generated/res/resValues/androidTest/debug
+com.xolbine.namaztimemm.test.app-mergeDebugAndroidTestResources-3 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/merged.dir
+com.xolbine.namaztimemm.test.app-mergeDebugAndroidTestResources-4 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/stripped.dir
+com.xolbine.namaztimemm.test.app-debugAndroidTest-5 /Users/shainwaiyan/Vs code/Azam app project/new aapp variant/namaz-time-mma-pp/android/app/build/intermediates/merged_res/debugAndroidTest/mergeDebugAndroidTestResources

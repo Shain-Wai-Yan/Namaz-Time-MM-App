@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[27109,["/_next/static/chunks/53a9bc6e919907ee.js","/_next/static/chunks/1f70b5ffbc962536.js","/_next/static/chunks/e58be28ce5e5275a.js"],"default"]
+3:I[41165,["/_next/static/chunks/6bf4d6dc13ed2f8c.js","/_next/static/chunks/c0789a92adcd7f50.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"buildId":"592lHDS0yjT5bbjPOuM7H","rsc":["$","$1","c",{"children":[["$","div",null,{"className":"flex flex-col min-h-screen","children":[["$","$L2",null,{"initialTimes":null}],["$","div",null,{"className":"sr-only","children":[["$","h1",null,{"children":"Azan Myanmar - Precise Islamic Prayer Times"}],["$","p",null,{"children":"Providing accurate Fajr, Dhuhr, Asr, Maghrib, and Isha times across Myanmar using astronomical solar calculations. Features include a bilingual interface (Burmese/English), Hijri calendar, and offline functionality."}]]}]]}],[["$","script","script-0",{"src":"/_next/static/chunks/1f70b5ffbc962536.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/e58be28ce5e5275a.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"loading":null,"isPartial":false}
+5:null

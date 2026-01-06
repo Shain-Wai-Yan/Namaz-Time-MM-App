@@ -17,9 +17,12 @@ import { Geolocation } from "@capacitor/geolocation"
 import { scheduleNativeAlarms } from "@/lib/native-alarm-scheduler"
 import { createNotificationChannels } from "@/lib/notifications"
 import { loadSettings, saveSettings, type UserSettings } from "@/lib/storage"
+import { useAndroidBack } from "@/lib/use-android-back"
+import { useToast } from "@/hooks/use-toast"
 
 export default function PrayerTimesClient({ initialTimes, initialCity, initialHijri, initialEvent, isRegional }: any) {
   const router = useRouter()
+  const { toast } = useToast()
 
   const [settings, setSettings] = useState<UserSettings>(() => {
     if (typeof window === "undefined") {
@@ -277,6 +280,16 @@ export default function PrayerTimesClient({ initialTimes, initialCity, initialHi
     { name: t.maghrib, time: times?.maghrib || "--:--", secondary: false },
     { name: t.isha, time: times?.isha || "--:--", secondary: false },
   ]
+
+  useAndroidBack({
+    isHomePage: !isRegional,
+    onBackPress: () => {
+      toast({
+        description: t.exit_prompt,
+        duration: 2000,
+      })
+    },
+  })
 
   return (
     <main className="min-h-screen bg-background text-foreground flex flex-col font-sans selection:bg-primary selection:text-white relative">

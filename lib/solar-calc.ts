@@ -141,11 +141,24 @@ function solveTime(lat: number, lng: number, tz: number, jd: number, angle: numb
 const norm = (h: number) => ((h % 24) + 24) % 24
 
 function formatHM(h: number) {
+  // 1. Normalize the hour to the 0-24 range
   h = norm(h)
-  const hh = Math.floor(h)
-  const mm = Math.round((h - hh) * 60)
+  
+  // 2. Calculate TOTAL minutes from midnight and round it FIRST.
+  // This handles the "59.9 minutes becomes 00 minutes of the next hour" logic.
+  const totalMinutes = Math.round(h * 60)
+  
+  // 3. Derive hours and minutes from the total rounded minutes
+  let hh = Math.floor(totalMinutes / 60)
+  const mm = totalMinutes % 60
+  
+  // 4. Handle the 24-hour wrap-around (e.g., if 23:59:59 rounds to 24:00)
+  hh = hh % 24
+  
+  // 5. Format for AM/PM
   const ap = hh >= 12 ? "PM" : "AM"
   const h12 = hh % 12 || 12
+  
   return `${h12}:${mm.toString().padStart(2, "0")} ${ap}`
 }
 
@@ -276,7 +289,7 @@ export function calculatePrayerTimesAdvanced(
     sunrise: sunrise + (offsets.sunrise || 0) / 60,
     zawal: zawal + (offsets.zawal || 0) / 60,
     // Use offsets.dhuhr here, and the || 0 prevents the NaN crash
-    dhuhr: dhuhr + (offsets.dhuhr || 0) / 60, 
+    dhuhr: dhuhr + (offsets.dhuhr || 0) / 60,
     asr: asr + (offsets.asr || 0) / 60,
     maghrib: sunset + (offsets.maghrib || 0) / 60,
     isha: isha + (offsets.isha || 0) / 60,

@@ -7,6 +7,7 @@ import { Geolocation } from "@capacitor/geolocation"
 import Compass from "@/lib/compass-plugin"
 import { Haptics, ImpactStyle, NotificationType } from "@capacitor/haptics"
 import { getQiblaDegrees, getDistanceToKaaba } from "@/lib/qibla-calculations" // Added imports for getQiblaDegrees and getDistanceToKaaba
+import { useAndroidBack } from "@/lib/use-android-back"
 
 export default function QiblaClient() {
   const [heading, setHeading] = useState(0)
@@ -20,6 +21,10 @@ export default function QiblaClient() {
   const [lastHapticTime, setLastHapticTime] = useState(0)
   const [isStabilizing, setIsStabilizing] = useState(false)
   const [hasMagneticInterference, setHasMagneticInterference] = useState(false)
+
+  useAndroidBack({
+    isHomePage: false,
+  })
 
   useEffect(() => {
     const startTracking = async () => {

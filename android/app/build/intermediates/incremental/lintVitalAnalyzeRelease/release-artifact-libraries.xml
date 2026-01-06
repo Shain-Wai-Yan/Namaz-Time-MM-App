@@ -287,6 +287,20 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
+      name=":@@:capacitor-app::release"
+      jars="/Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/90e5422825c691899d90c0b32ea15c6d/transformed/out/jars/classes.jar:/Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/90e5422825c691899d90c0b32ea15c6d/transformed/out/jars/libs/R.jar"
+      resolved="android:capacitor-app:unspecified"
+      partialResultsDir="/Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/app/android/build/intermediates/lint_vital_partial_results/release/lintVitalAnalyzeRelease/out"
+      folder="/Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/90e5422825c691899d90c0b32ea15c6d/transformed/out"
+      manifest="AndroidManifest.xml"
+      resFolder="res"
+      assetsFolder="assets"
+      lintJar="lint.jar"
+      publicResources="public.txt"
+      symbolFile="R.txt"
+      externalAnnotations="annotations.zip"
+      proguardRules="proguard.txt"/>
+  <library
       name=":@@:capacitor-geolocation::release"
       jars="/Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/7bac553029e13dbe1c89d5b0f69014b4/transformed/out/jars/classes.jar:/Users/shainwaiyan/.gradle/caches/9.0-milestone-1/transforms/7bac553029e13dbe1c89d5b0f69014b4/transformed/out/jars/libs/R.jar"
       resolved="android:capacitor-geolocation:unspecified"

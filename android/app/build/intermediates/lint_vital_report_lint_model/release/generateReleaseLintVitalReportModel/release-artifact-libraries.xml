@@ -265,6 +265,9 @@
       name=":@@:capacitor-cordova-android-plugins::release"
       project=":capacitor-cordova-android-plugins"/>
   <library
+      name=":@@:capacitor-app::release"
+      project=":capacitor-app"/>
+  <library
       name=":@@:capacitor-geolocation::release"
       project=":capacitor-geolocation"/>
   <library

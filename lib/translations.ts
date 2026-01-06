@@ -61,6 +61,7 @@ export const translations = {
     select_city: "Select City",
     home: "Home",
     privacy_policy: "Privacy Policy",
+    exit_prompt: "Press back again to exit",
   },
   my: {
     schedule: "နမာဇ်အချိန်ဇယား",
@@ -97,7 +98,7 @@ export const translations = {
       "ဇူလ်ဟဂျဟ်",
     ],
     event_names: {
-      new_year: "အစ္စလာမ့်နှစ်သစ်ကူး",
+      new_year: "အစ္စလာမ်သည့်နှစ်သစ်ကူး",
       ashura: "အာရှူရာနေ့",
       mawlid: "မောင်လစ်ဒ်နေ့",
       isra: "အစ်ရာနှင့်မအ်ရာဂ်ျ",
@@ -122,5 +123,6 @@ export const translations = {
     select_city: "မြို့ကိုရွေးချယ်ပါ",
     home: "ပင်မစာမျက်နှာ",
     privacy_policy: "ကိုယ်ရေးအချက်အလက်မူဝါဒ",
+    exit_prompt: "ထွက်ခွာရန် ပြန်လည်နှိပ်ပါ",
   },
 } as const

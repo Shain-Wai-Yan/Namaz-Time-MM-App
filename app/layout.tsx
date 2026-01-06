@@ -1,7 +1,8 @@
 import type React from "react"
-import type { Metadata, Viewport } from "next" // Added Viewport type
+import type { Metadata, Viewport } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
+import { Toaster } from "@/components/ui/toaster"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -10,11 +11,11 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  viewportFit: "cover", // This allows the app to handle the "Safe Area"
+  viewportFit: "cover",
   themeColor: "#000000",
 }
 
-// 2. Cleaned Metadata (Removed deprecated viewport/themeColor from here)
+// 2. Cleaned Metadata
 export const metadata: Metadata = {
   title: "Namaz Time MM - Precise Prayer Times Myanmar & Global",
   description:
@@ -62,11 +63,12 @@ export default function RootLayout({
       <body
         className="font-sans antialiased bg-background selection:bg-primary/10 selection:text-primary"
         style={{
-          paddingTop: "env(safe-area-inset-top)" /* The Fix for the Top Notch */,
-          paddingBottom: "env(safe-area-inset-bottom)" /* The Fix for Bottom Gesture Bar */,
+          paddingTop: "env(safe-area-inset-top)",
+          paddingBottom: "env(safe-area-inset-bottom)",
         }}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   )

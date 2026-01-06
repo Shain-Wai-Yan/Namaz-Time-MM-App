@@ -15,6 +15,7 @@ ADDED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /androi
 INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:2:1-89:12
 INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:2:1-89:12
 INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml:2:1-89:12
+MERGED from [:capacitor-app] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/app/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
 MERGED from [:capacitor-geolocation] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/geolocation/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
 MERGED from [:capacitor-haptics] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/haptics/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-9:12
 MERGED from [:capacitor-local-notifications] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/local-notifications/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-26:12
@@ -284,6 +285,8 @@ uses-sdk
 INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml
 INJECTED from /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /android/app/src/main/AndroidManifest.xml
+MERGED from [:capacitor-app] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/app/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:capacitor-app] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/app/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
 MERGED from [:capacitor-geolocation] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/geolocation/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
 MERGED from [:capacitor-geolocation] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/geolocation/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
 MERGED from [:capacitor-haptics] /Users/shainwaiyan/Vs code/Azam app project/namez time mm app /node_modules/@capacitor/haptics/android/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
